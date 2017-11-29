@@ -1,0 +1,86 @@
+<!-- App版本列表选择 -->
+<div style="margin:10px;">
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">App版本列表</label>
+</div>
+<!-- App版本列表选择end -->
+<!-- App分类 -->
+<div style="margin:10px;">
+<button class="btn btn-primary "  ng-click="appVersionListByPlatform('','')">全部列表</button>
+<button class="btn btn-info" ng-click="appVersionListByPlatform(0,'')" >Android</button>
+<button class="btn btn-warning" ng-click="appVersionListByPlatform(1,'')" >IOS</button>
+<button class="btn btn-info" ng-click="appVersionListByPlatform('',0)" >上线</button>
+<button class="btn btn-warning" ng-click="appVersionListByPlatform('',1)" >未上线</button>
+<button class="btn btn-info" ng-click="appVersionListByPlatform(0,0)" >上线Android</button>
+<button class="btn btn-warning" ng-click="appVersionListByPlatform(0,1)" >未上线Android</button>
+<button class="btn btn-info" ng-click="appVersionListByPlatform(1,0)" >上线IOS</button>
+<button class="btn btn-warning" ng-click="appVersionListByPlatform(1,1)" >未上线IOS</button>
+</div>
+<!-- App分类end -->
+<!-- App版本列表 -->
+		<div style="width:100%" class="tableWrap">
+			<table class="table table-bordered" style="width:100%">
+			<tr>
+			  <th>序号</th>
+			  <th>平台</th>
+			  <th>版本名</th>
+			  <th>版本类型</th>
+			  <th>版本内容</th>
+			  <th>下载链接</th>
+			  <th>更新时间</th>
+			  <th>状态</th>
+			  <th >操作</th> 
+			</tr>
+			<tr ng-repeat="appVersion in appVersionList.list" >
+			  <td >
+			  <span ng-bind="(currentPage-1)*pageNumber+$index+1"></span>
+			  </td>
+			  <td >
+			  <span ng-if="appVersion.platform==0" class="alert-info">Android</span>
+			  <span ng-if="appVersion.platform==1" class="alert-warning">IOS</span>
+			  </td>
+			  <td >
+			  <span ng-bind="appVersion.name"></span>
+			  </td>
+			  <td >
+			  <span ng-if="appVersion.type==0">普通</span>
+			  <span ng-if="appVersion.type==1">强制</span>
+			  </td>
+			  <td >
+			  <span ng-bind="appVersion.content"></span>
+			  </td>
+			  <td >
+			  <a style="word-break: break-word;" href="{{appVersion.link}}">{{appVersion.link}}</a>
+			  </td>
+			  <td ng-bind="appVersion.updateDate"></td>
+			  <td >
+			  <span ng-if="appVersion.status==0" class="text alert-success">上线</span>
+			  <span ng-if="appVersion.status==1" class="text alert-danger">未上线</span>
+			  </td>
+			 <td >
+			<!--   <button class=" btn btn-warning" ng-click="updateAppVersion(appVersion)">修改</button> -->
+			  <button class=" btn btn-danger" ng-click="delAppVersion(appVersion)">删除</button>
+			  </td>
+			</tr>
+			</table>
+		</div>
+<!-- App版本列表end -->
+	<!-- 页面列表end -->
+<!-- 加载更多end -->
+   <div >
+    <ul class="pagination " >
+    <li><a ng-click="toPage('首页',platform,status)" >首页</a></li>
+    <li class="previous" ><a ng-click="toPage('previous',platform,status)" >&larr;</a></li>
+
+    <li ng-repeat="currentPageNumber in showPageNumberArray"><a ng-click="toPage(currentPageNumber,platform,status)" ng-class="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a ng-click="toPage('next',platform,status)" >&rarr;</a></li>
+    <li><a ng-click="toPage('尾页',platform,status)" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    <li>
+    <select style="width:100px;height:34px;" ng-model="currentPage" ng-change="toPage(currentPage,platform,status)"    ng-options="currentPage as currentPage for currentPage in showAllPageNumberArray"> 
+    </select>
+    </li>
+    </ul>
+   </div>
+<!--  加载更多end -->

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>新闻后台管理系统</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+<meta name="keywords" content="本真,茶艺,茶叶,绿茶,红茶,黑茶,花茶,黄茶,青茶">
+<meta charset="UTF-8">
+<meta name="description"
+	content="欢迎关注本真茶园，优购好茶、品读茶艺，专注于茶的奥秘，也许您的精彩如同茶道需要用心去品味，本真茶园邀请您来喝茶，分享茶的感悟。 好茶才能品茗悟道，懂茶没那么难，我们愿与您分享茶艺的精彩。">
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/css/sellerbase.css" rel="stylesheet">
+</head>
+  <body>
+	<!-- 顶部 -->
+	<nav class="navbar navbar-default navbar-static-top navbar-inverse">
+  <div class="container">
+   <div class="navbar-header">
+   <button type="button" class="navbar-toggle" data-toggle="collapse" 
+         data-target="#example-navbar-collapse">
+         <span class="sr-only">切换导航</span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+   </button>
+      <a class="navbar-brand" href="#">新闻后台管理系统</a>
+    </div>
+    <div class="collapse navbar-collapse" id="example-navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">注册</a></li>
+        <li><a href="/seller/index">登录</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+	<!-- end顶部 -->
+	<!-- 注册 -->
+	<!-- title-->
+	<div class="container seller-register-title">
+		<div class="col-sm-4" id="oneFormTitle">1.提交申请</div>	
+		<div class="col-sm-4" id="twoFormTitle">2.填写店铺信息</div>	
+		<div class="col-sm-4" id="threeFormTitle">3.注册成功</div>	
+	</div>
+	<!-- endtitle-->
+	<!-- one form-->
+	<div class="container seller-register-div" id="oneForm">
+  			
+			<form class="comment-wrap">
+			<div class="form-group text-center">
+			<label id="sellerErrorValue" class="text-danger hidden"></label>
+			</div>
+				<div class="form-group">
+					<label class="control-label text-danger verification-email" id="sellerPhoneError"></label>
+					 <input
+						type="tel" class="form-control" id="sellerPhone"
+						placeholder="手机号" name="seller_phone">
+				</div>
+				<div class="form-group">
+					<label class="control-label text-danger verification-email" id="sellerPasswordError"></label>
+					 <input
+						type="password" class="form-control" id="sellerPassword"
+						placeholder="输入密码" name="seller_password">
+				</div>
+				<div class="form-group">
+					<label class="control-label text-danger verification-email" id="sellerRePasswordError"></label>
+					 <input
+						type="password" class="form-control" id="sellerRePassword"
+						placeholder="确认密码">
+				</div>
+					<label id="sellerValidCodeValueError" class="control-label text-danger verification-email"></label>
+				<div class="form-group row">
+					 <div class="col-sm-7">
+
+					 <input
+						type="text" class="form-control"  id="sellerValidCodeValue"
+						placeholder="验证码" name="valid_code">
+					 </div>
+					 <div class="col-sm-5">
+					 <input
+						type="button" class="form-control btn btn-default" id="sellerValidCodeBtn"
+						value="获取验证码">
+					 </div>
+				</div>
+				<div class="form-group">
+				<button type="button" id="oneFormSubmit" class="btn-block btn btn-success">下一步</button>
+				</div>				
+			</form>
+		</div>
+	<!--end one form-->
+	<!--two form-->
+	<div class="container seller-register-div" 
+	style="display:none;"
+	id="twoForm">
+  			
+			<form class="col-sm-offset-3 col-sm-6">
+			<div class="form-group text-center">
+			<label id="sellerErrorValue" class="text-danger hidden"></label>
+			</div>
+				<div class="form-group">
+					<div id="sellerImg" >
+					 <img id="sellerImgSrc" src="/resources/img/preLoding.jpg"/>
+					 <a href="javascript:;" id="sellerImgBtn" class="btn btn-danger">上传店铺LOGO</a>
+					 <input
+						type="file" class="form-control" accept="image/*" id="sellerImgFile" style="display: none;">
+					</div>
+				</div>
+				<div class="form-group">
+					 <input
+						type="text" class="form-control" id="sellerName"
+						placeholder="店铺名称">
+				</div>
+				<div class="form-group">
+					 <textarea
+						 class="form-control" style="resize:vertical;" id="sellerDesc"
+						placeholder="店铺介绍"></textarea>
+				
+				</div>
+				<!-- <div class="form-group text-right" style="margin-top:-20px;color:#ccc;border:1px solid #ccc">
+					<div id="sellerDescLength" >
+						<span id="sellerDescCurrentLength">0</span>/<span id="sellerDescMaxLength">100</span>
+					</div>
+				</div> -->
+				
+				<div class="form-group">
+				<button type="button" id="twoFormSubmit" class="btn btn-block btn-success">下一步</button>
+				</div>				
+			</form>
+		</div>
+	<!--end two form-->
+	<!--three form-->
+	<div class="container seller-register-div" 
+	style="display:none;" 
+	 id="threeForm">
+  			<div class="alert alert-success text-center">注册成功,点击<a href="/seller/index" class="btn btn-success">登陆</a></div>
+		</div>
+	<!--end three form-->
+	<!-- end注册 -->
+<!-- foot -->
+  <div class="container-fuild seller-foot">
+ 	<div class="seller-foot-contact">
+ 		<div>联系我们</div>
+ 		<div>公司地址：湖南省长沙市岳麓区阳光城1107室</div>
+ 	</div>
+  <div class="seller-foot-copyright"><p>Copyright 2016 itcast Inc,All rights reserved.</p></div>
+  </div>
+<!-- endfoot -->
+       <script src="/resources/js/jquery2.1.js"></script>  
+       <script src="/resources/js/bootstrap3.2.0.js"></script>
+      <script src="/resources/js/base.js"></script>
+       <script>
+       
+       
+       </script>
+    
+   </body>
+</html>

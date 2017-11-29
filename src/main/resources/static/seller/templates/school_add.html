@@ -1,0 +1,30 @@
+    <label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">添加学堂</label>
+<br/>
+<!-- 增加 -->
+	<form novalidate name="myAddSchoolForm" ng-submit="addSchoolForm()">
+    <label  class="text-danger">※标题</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="school.title" name="title" required ng-minlength="2" ng-maxlength="32" placeholder="2-32位">
+    <div class="text-danger alert alert-danger " ng-show="myAddSchoolForm.title.$dirty && myAddSchoolForm.title.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确学堂标题
+				    </div>
+  </div>
+    <label  class="text-danger">※内容</label>
+  <div class=" comment-input-margin" >
+    <!--  
+    <textarea type="text" style="min-width:500px;min-height:300px;" class=" comment-input" ng-model="school.content" name="content" required ng-minlength="2" ng-maxlength="10000" placeholder="2-10000位">
+    </textarea>
+<div class="text-danger alert alert-danger " ng-show="myAddSchoolForm.content.$dirty && myAddSchoolForm.content.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确学堂内容
+				    </div>
+    -->
+        <!-- <div id="editor-trigger" style="min-width:500px;min-height:300px;" ng-model="school.content" contenteditable="true">
+        </div> -->
+        <textarea id="schoolAddEditor" style="min-width:500px;min-height:500px;" >
+        <p></p>
+        </textarea>
+  </div>
+  <input type="submit" class="btn btn-lg btn-danger" 
+  ng-disabled="myAddSchoolForm.$invalid || formDisabled" value="提交"/>
+</form>
+<!-- 增加 end-->

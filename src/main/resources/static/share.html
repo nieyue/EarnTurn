@@ -1,0 +1,143 @@
+<html>
+    <head>
+        <title>转赚邀请函！邀请您一起赚钱吧！</title>
+        <meta charset="UTF-8">
+        <meta content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=no" name="viewport" />
+        <meta name="keywords" content="转赚、赚钱、分享、共赢">
+		<meta charset="UTF-8">
+		<meta name="description"
+			content="转赚、赚钱、分享、共赢，这是一个分享即得的公众平台！">
+        
+    <style>
+        *{
+            padding:0;
+            margin:0;
+        }
+        .wrap{
+            max-width:640px;
+            margin: 0 auto;
+            height:100%;
+           	
+        }
+        @media screen and (max-width:640px){
+            .wrap{
+                width:100% !important;
+                }
+            }
+       .top{
+            position: relative;
+            left: 0;
+            top:0;
+            width: 100%;
+            text-align: center;
+       }     
+       .top img{
+            width:100%;
+            height:auto;
+            max-width:100%;
+            max-height:100%;
+        }
+        .middle{
+            position: relative;
+            top:2%;
+            width: 100%; 
+       }     
+       .middle p{
+            width:auto;
+            height:auto;
+            max-width:100%;
+            max-height:100%;
+            font-family:楷体;
+            font-size: 120%;
+        }
+        .bottom{
+                position: relative;
+                top: 9%;
+                left: 10%;
+                border: 1px solid #9bda52;
+                background-color: #9bda52;
+                width: 80%;
+                text-align: center;
+                color: white;
+                line-height: 35px;
+                height: 35px;
+                box-shadow: 0 0 100px #9bda52;
+       } 
+        .bottom:hover{
+                position: relative;
+                top: 9%;
+                left: 10%;
+                border: 1px solid green;
+                background-color: green;
+                width: 80%;
+                text-align: center;
+                color: white;
+                line-height: 35px;
+                height: 35px;
+       }  
+    </style>
+
+    </head>
+    <body>
+        <div class="wrap">
+           <!--  <div class="top">
+                <img src="http://img.fuwu88.cn/uploaderPath/img/20170607/14968204558306004839181049.png" alt="" />
+            </div>
+            <div class="middle"><p>&nbsp&nbsp一款分享文章就能赚收益的app！一款邀请好友就能赚收益的app！
+                                 一款足不出户就能让您又玩有赚的app！全新的文章板块！
+                                 完善的合伙人模式！流畅的提现规则！高收益，提现快，
+                                 尽在转赚！还等什么！加入我们吧！</p>
+            </div>
+            <div class="bottom" onclick="go()">马上加入</div> -->
+            
+            <img alt="" onclick="showDialog()" style="height:100%;width:100%;position:fixed;left:0;top:0;" src="http://img.newzhuan.com/uploaderPath/img/20170613/14973239463085893032221907.png">
+            <div class="dialog"  style="display:none;background-color:#ccc;opacity:0.6;position:fixed;left:0;top:0;height:100%;width:100%;z-index:99;"></div>
+            <img alt="" class="dialog" onclick="go()" style="z-index:999;display: none;width:60%;height:50%;position:fixed;left:20%;top:25%;" src="http://img.newzhuan.com/uploaderPath/img/20170613/14973244315003800286588682.png">
+       
+        </div>
+
+        
+
+    </body>
+    <script src="http://www.newzhuan.com/resources/js/jquery2.1.js"></script>
+    <script src="http://www.newzhuan.com/resources/js/base.js"></script>
+    <script type="text/javascript">
+	/*  $.get("/getSession",function(data, textStatus, req) {
+	console.log(data)
+	$.getScript("http://web1.nieyue.com/setSession?SESSION="+data);
+    	
+    }); */ 
+    
+    function showDialog(){
+    $(".dialog").css("display","block");
+    };
+    var num=1;
+    function addMasterId(){
+    $.post("http://www.newzhuan.com/acount/addMasterId",
+    {
+    masterId:myUtils.GetQueryString("acountId"),
+    appVersion:navigator.appVersion
+    },
+    function(data) {
+	if(data.code!=200){
+  	num++;
+  	if(num<=3){
+  		addMasterId();
+  	 }}
+    });
+    }
+    addMasterId();
+    //document.write(navigator.appVersion)
+            function go(){
+            if(navigator.appVersion.indexOf("Android")>-1){
+              //  alert("跳转中。。。");
+              location.href="http://a.app.qq.com/o/simple.jsp?pkgname=io.dcloud.H518260C7";
+            }else if(navigator.appVersion.indexOf("iPhone")>-1){
+             // location.href="http://itunes.apple.com/app/id1247343014";
+              location.href="https://www.pgyer.com/zeqf";
+            
+            }
+            }
+        </script>
+
+</html>

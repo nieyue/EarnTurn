@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>推广API</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+<meta name="keywords" content="API列表">
+<meta charset="UTF-8">
+<meta name="description"
+	content="API列表">
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/css/sellerbase.css" rel="stylesheet">
+<style>
+th,tr,td{
+text-align:center;
+font-size:0.5rem;
+}
+</style>
+</head>
+
+<body ng-app="indexApp">
+	<div ng-controller="indexCtrl"  style="margin:auto;max-width:1200px;">
+
+<!-- API标题-->
+<div style="margin:10px;">
+	 <div  class="text-danger" style="font-size:30px;color:#ccc;text-align:center;">API接口文档</div>
+	
+</div>
+<!-- API标题 end-->
+<!-- 每日API列表 -->
+ 	<div style="width:100%">
+			<table class="table table-bordered" style="width:100%;background-color: #fff;">
+			<thead>
+			<tr>
+			  <th>接口类</th>
+			  <th>接口方法名</th>
+			  <th>请求类型</th>
+			  <th>请求地址URL</th>
+			  <th>请求参数</th>
+			</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="api in apiList" >
+				  <td >
+				  	<span ng-bind="api.controllerName"></span>
+				  </td>
+				  <td >
+				  <span ng-bind="api.methodName"></span>
+				  </td>
+				  <td >
+				  <span ng-repeat="rt in api.requestType">
+				  	<span ng-bind="rt"></span>
+				  </span>
+				  <span ng-if="api.requestType<=0">
+				  	<span>GET/PUT/POST/DELETE</span>
+				  </span>
+				  </td>
+				  <td >
+				  <span ng-bind="api.requestUrl"></span>
+				  </td>
+				  <td >
+				  	<span ng-bind="api.methodParamTypes"></span>
+				  </td>
+				</tr>
+			</tbody>
+			</table>
+		</div>
+		<!-- 加载更多 -->
+  <!--  <div >
+    <ul class="pagination " >
+    <li><a ng-click="toPage('首页')" >首页</a></li>
+    <li class="previous" ><a ng-click="toPage('previous')" >&larr;</a></li>
+
+    <li ng-repeat="currentPageNumber in showPageNumberArray"><a ng-click="toPage(currentPageNumber)" ng-class="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a ng-click="toPage('next')" >&rarr;</a></li>
+    <li><a ng-click="toPage('尾页')" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    </ul>
+   </div> -->
+<!--  加载更多end -->
+
+</div>
+	<!-- 页面列表end -->
+	<script src="/resources/js/jquery2.1.js"></script>
+	<script src="/resources/js/bootstrap3.2.0.js"></script>
+	<script src="/resources/js/angularjs.min.1.5.7.js"></script>
+	<script src="/resources/js/echarts.common.min.js"></script>
+	<script src="/resources/js/base.js"></script>
+	<script>
+	$(function(){
+	//获取data-src
+	$("img").each(function(index){
+		if($(this).attr("data-src")){
+			$(this).attr("src",$(this).attr("data-src"));
+		}
+	});
+	//$("#loadAnimationBody").css("display","none");
+	});
+    	var indexApp=angular.module('indexApp',[]);
+    	  indexApp.filter("dateDiff",function(){
+                return function(dateTimeStamp){
+                    return myUtils.getDateDiff(dateTimeStamp);
+                }
+            });
+       
+					
+    	indexApp.controller('indexCtrl',function($scope){
+    	$.ajaxSetup({async:false});
+     function apiInit(){
+     $.get("/getAPI",function(pld){
+           $scope.apiList=pld.list;
+			 //console.log($scope.apiList)
+               }); }
+     apiInit();
+
+
+       });
+    </script>
+</body>
+</html>

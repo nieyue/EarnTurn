@@ -1,0 +1,39 @@
+  <div style="margin:10px;">
+<button class="btn btn-primary" ui-sref="main.financeDetailsList">返回充值/提现列表</button>
+</div>
+    <label  class="text-danger" style="font-size:30px;color:#ccc;">充值/提现提交人信息</label>
+<br/>
+<div class="list-group" ng-style="{color:acount.status==0?'green':acount.status==1?'red':acount.status==2?'#989804':'black'}" style="max-width:800px; word-wrap: break-word;">
+  <div class="list-group-item">昵称：{{acount.nickname}}</div >
+  <div  class="list-group-item">
+  图像：<img alt="" style="width:100px;height:100px;border-radius:50px;" ng-if="acount.icon" src="{{acount.icon}}">
+ <div ng-if="!acount.icon" style="width:100px;height:100px;background-color:#ccc;color:white;border-radius:50px;line-height:100px;font-size:4rem;text-align:center;" class="glyphicon glyphicon-user" > </div>
+  </div >
+  <div  class="list-group-item">渠道ID: <span ng-bind="(acount.spreadId==0||acount.spreadId==null)?'自然量':acount.spreadId">自然量</span></div >
+  <div  class="list-group-item">真实姓名: {{acount.realname}}</div >
+  <div  class="list-group-item">电话: {{acount.phone}}</div >
+  <div  class="list-group-item">email: {{acount.email}}</div >
+  <div  class="list-group-item">性别: {{acount.sex==1?'男性':acount.sex==2?'女性':'未知'}}</div >
+  <div  class="list-group-item">身份证: {{acount.identityCards}}</div >
+  <div  class="list-group-item">QQ: {{acount.qq}}</div >
+  <div  class="list-group-item">微信号: {{acount.wechat}}</div >
+  <div  class="list-group-item">微博号: {{acount.microblog}}</div >
+  <div  class="list-group-item">支付宝账号: {{acount.alipay}}</div >
+  <div  class="list-group-item">国家: {{acount.country}}</div >
+  <div  class="list-group-item">省: {{acount.province}}</div >
+  <div  class="list-group-item">城市: {{acount.city}}</div >
+  <div   class="list-group-item">openid: {{acount.openid}}</div >
+  <div  class="list-group-item">uuid: {{acount.uuid}}</div >
+  <div  class="list-group-item">创建时间: {{acount.createDate}}</div >
+  <div  class="list-group-item">登陆时间: {{acount.loginDate}}</div >
+  <div  class="list-group-item">是否有师傅: {{acount.masterId!=null?'有':'没有'}}</div >
+  <div  class="list-group-item">
+  状态：{{acount.status==0?'正常':acount.status==1?'锁定':acount.status==2?'异常':''}}
+  <div class=" comment-input-margin">
+  <select style="width:80px;height:20px;" ng-model="acount.status" name="status"
+   ng-init="acount.status=0"   ng-options="aco.id as aco.value for aco in [{id:0,value:'正常'},{id:1,value:'锁定'},{id:2,value:'异常'}]">
+  </select>
+  <button ng-click="updateAcountStatus(acount)" class="btn btn-sm">保存修改</button>
+  </div>
+  </div >
+</div>

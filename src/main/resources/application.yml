@@ -1,0 +1,58 @@
+#日志记录
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+      hibernate: ERROR
+ 
+
+
+#mybatis配置
+mybatis: 
+  #check-config-location: true
+  #executor-type: batch
+  type-aliases-package: com.nieyue.bean 
+  mapper-locations: classpath:config/mapper/*.xml   
+  configuration: 
+    mapUnderscoreToCamelCase: true
+    useColumnLabel: true
+    useGeneratedKeys: true
+    
+    
+spring:
+  http:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss
+  jackson: 
+    #property-naming-strategy: CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES
+    date-format: yyyy-MM-dd HH:mm:ss 
+    time-zone:  GMT+8
+  session:
+    store-type: redis      
+  profiles:
+   #active: dev
+   active: prod
+  rabbitmq:
+    addresses: 39.108.60.100
+    username: nieyue
+    password: liliu
+    listener:
+      acknowledge-mode: manual
+      retry:
+        enabled: true
+    virtual-host: /
+    publisher-confirms: true
+custom: 
+  datasource:
+    names: slave1
+    slave1: 
+      name: slave1
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/test1
+      #url: jdbc:mysql://114.215.70.214:3306/earn_turn_db
+      username: root
+      password: liliu

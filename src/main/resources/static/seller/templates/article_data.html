@@ -1,0 +1,104 @@
+<!-- 文章数据 -->
+<div style="margin:10px;">
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">文章总数据</label>
+</div>
+<!-- 文章数据end -->
+<!-- 文章数据列表 -->
+ <div style="width:100%">
+			<table class="table table-bordered" style="width:100%;background-color: #fff;">
+			<tr>
+			  <th>展示(PV)</th>
+			  <th>独立访客(UV)</th>
+			  <th>IP</th>
+			  <th>广告主消耗额</th>
+			  <th>阅读数</th>
+			  <th>用户收益</th>
+			</tr>
+			<tr >
+			  <td>
+			  <span ng-bind="articleData.pvs||0"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="articleData.uvs||0"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="articleData.ips||0"></span>
+			  </td>
+			  <td class="text-danger">
+			  ￥<span ng-bind="articleData.nowTotalPrice||0.0"></span>
+			  </td>
+			 <td >
+			  <span ng-bind="articleData.readingNumber||0"></span>
+			  </td> 
+			 <td class="text-danger">
+			 ￥ <span ng-bind="articleData.userNowTotalPrice||0"></span>
+			  </td> 
+			</table>
+		</div>
+<!-- 文章数据列表end -->
+<!-- 文章日数据 -->
+<div style="margin:10px;" ng-if="acountId==''" >
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">文章日数据</label>
+</div>
+<!-- 文章日数据end -->
+<!-- 文章日数据列表 -->
+ <div style="width:100%" ng-if="acountId==''">
+			<table class="table table-bordered" style="width:100%;background-color: #fff;">
+			<tr>
+			  <th>日期</th>
+			  <th>展示(PV)</th>
+			  <th>独立访客(UV)</th>
+			  <th>IP</th>
+			  <th>阅读数</th>
+			  <th>用户收益</th>
+			  <th>用户自身收益</th>
+			  <th>用户合伙人收益</th>
+			</tr>
+			<tr ng-repeat="articleDayData in articleDayDataList">
+			  <td>
+			  <span ng-bind="articleDayData.createDate |  limitTo:10"></span>
+			  </td>
+			  <td>
+			  <span ng-bind="articleDayData.pvs"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="articleDayData.uvs"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="articleDayData.ips"></span>
+			  </td>
+			 <td >
+			  <span ng-bind="articleDayData.number"></span>
+			  </td> 
+			 <td class="text-danger">
+			 ￥ <span ng-bind="articleDayData.userNowTotalPrice"></span>
+			  </td> 
+			 <td class="text-danger">
+			 ￥ <span ng-bind="articleDayData.userSelfNowTotalPrice"></span>
+			  </td> 
+			 <td class="text-danger">
+			 ￥ <span ng-bind="articleDayData.userPartnerNowTotalPrice"></span>
+			  </td> 
+			</table>
+		</div>
+<!-- 文章日数据列表end -->
+
+<!-- 加载更多 -->
+  <!--  <div >
+    <ul class="pagination " >
+    <li><a ng-click="toPage('首页',acountId,type,isRecommend,fixedRecommend)" >首页</a></li>
+    <li class="previous" ><a ng-click="toPage('previous',acountId,type,isRecommend,fixedRecommend)" >&larr;</a></li>
+
+    <li ng-repeat="currentPageNumber in showPageNumberArray"><a ng-click="toPage(currentPageNumber,acountId,type,isRecommend,fixedRecommend)" ng-class="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a ng-click="toPage('next',acountId,type,isRecommend,fixedRecommend)" >&rarr;</a></li>
+    <li><a ng-click="toPage('尾页',acountId,type,isRecommend,fixedRecommend)" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    <li>
+    <select style="width:100px;height:34px;" ng-model="currentPage" ng-change="toPage(currentPage,acountId,type,isRecommend,fixedRecommend)"   ng-options="currentPage as currentPage for currentPage in showAllPageNumberArray"> 
+    </select>
+    </li>
+    </ul>
+   </div> -->
+<!--  加载更多end -->

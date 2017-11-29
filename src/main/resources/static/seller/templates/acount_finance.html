@@ -1,0 +1,116 @@
+<div style="margin:10px;">
+<button class="btn btn-primary" ui-sref="main.acountList">返回账户列表</button>
+</div>
+<!-- 财务列表选择 -->
+<div style="margin:10px;">
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">财务记录</label>
+<div style="display: inline-block;vertical-align:super;">
+</div>
+</div>
+<!-- 财务列表选择end -->
+<!-- 财务 -->
+		<div  class="tableWrap">
+			<table class="table table-bordered">
+			<tr>
+			  <th>余额</th>
+			  <th>充值金额</th>
+			  <th>消费金额</th>
+			  <th>提现金额</th>
+			  <th>合伙人总收益</th>
+			  <th>基准收益</th>
+			  <th>开户人</th>
+			  <th>开户银行</th>
+			  <th>银行账号</th>
+			  <th>开户银行地址</th>
+			  <th>更新时间</th>
+			</tr>
+			<tr  >
+			  <td >
+			  ￥:<span class="text-danger" ng-bind="finance.money||0 | number:2"></span>
+			  </td>
+			  <td >
+			  ￥:<span class="text-danger" ng-bind="finance.recharge||0 | number:2"></span>
+			  </td>
+			  <td>
+			  ￥:<span class="text-danger" ng-bind="finance.consume||0 | number:2"></span>
+			  </td>
+			  <td>
+			  ￥:<span class="text-danger" ng-bind="finance.withdrawals||0 | number:2"></span>
+			  </td>
+			  <td>
+			  ￥:<span class="text-danger" ng-bind="finance.partnerProfit||0 | number:2"></span>
+			  </td>
+			  <td>
+			  ￥:<span class="text-danger" ng-bind="finance.baseProfit||0 | number:2"></span>
+			  </td>
+			  <td ng-bind="finance.bankUserName"></td>
+			  <td ng-bind="finance.bankName"></td>
+			  <td ng-bind="finance.bankAccount"></td>
+			  <td ng-bind="finance.bankAddress"></td>
+			  <td ng-bind="finance.updateDate"></td>
+			</tr>
+			</table>
+		</div>
+<!-- 财务end -->
+	<!-- 页面列表end -->
+	<!-- 财务详情 -->
+<!-- 财务详情列表选择 -->
+<div style="margin:10px;" >
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">财务详情列表（充值/提现）</label>
+</div>
+<!-- 财务详情列表选择end -->
+<!-- 财务详情列表 -->
+<div ng-if="!financeDetailsList ||financeDetailsList.list.length<=0" class="text-center alert alert-warning" style="width:800px;">
+       没有记录！
+   </div>
+		<div style="width:100%" id="loadAnimationBody" ng-if="financeDetailsList.list.length>0">
+			<table class="table table-bordered" style="width:100%">
+			<tr>
+			  <th>序号</th>
+			  <th>类型</th>
+			  <th>金额</th>
+			  <th>状态</th>
+			  <th>更新时间</th>
+			</tr>
+			<tr ng-repeat="financeDetails in financeDetailsList.list" >
+			  <td >
+			  <span ng-bind="(currentPage-1)*pageNumber+$index+1"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="financeDetails.type==0?'提现':financeDetails.type==1?'充值':'错误'"></span>
+			  </td>
+			  <td >
+			    ￥:<span class="text-danger" ng-bind="financeDetails.money||0 | number:2"></span>
+			  </td>
+			  <td >
+			  <span class="text-info" ng-bind="financeDetails.status"></span>
+			  <button class="btn btn-success" ng-if="financeDetails.status=='审核中'" ng-click="financeDetailsStatus(financeDetails,'微信支付')">微信支付通过</button>
+			  <button class="btn btn-primary" ng-if="financeDetails.status=='审核中'" ng-click="financeDetailsStatus(financeDetails,'支付宝支付')">支付宝支付通过</button>
+			  <button class="btn btn-danger" ng-if="financeDetails.status=='审核中'" ng-click="financeDetailsStatus(financeDetails,'审核未通过')">审核未通过</button>
+			  </td>
+			  <td ng-bind="financeDetails.updateDate"></td>
+			</tr>
+			</table>
+		</div>
+<!-- 财务详情列表end -->
+	<!-- 页面列表end -->
+<!-- 加载更多end -->
+   <div >
+    <ul class="pagination " ng-if="financeDetailsList.list.length>0">
+    <li><a ng-click="toPage('首页')" >首页</a></li>
+    <li class="previous" ><a ng-click="toPage('previous')" >&larr;</a></li>
+
+    <li ng-repeat="currentPageNumber in showPageNumberArray"><a ng-click="toPage(currentPageNumber)" ng-class="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a ng-click="toPage('next')" >&rarr;</a></li>
+    <li><a ng-click="toPage('尾页')" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    <li>
+    <select style="width:100px;height:34px;" ng-model="currentPage" ng-change="toPage(currentPage)"    ng-options="currentPage as currentPage for currentPage in showAllPageNumberArray"> 
+    </select>
+    </li>
+    </ul>
+   </div>
+<!--  加载更多end -->
+	<!-- 财务详情 end -->

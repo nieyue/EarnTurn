@@ -1,0 +1,92 @@
+    <label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">添加文章</label>
+<br/>
+<!-- 增加 -->
+	<form novalidate name="myAddArticleForm" ng-submit="addArticleForm()">
+    <label  class="text-danger">※标题</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="article.title" name="title" required ng-minlength="2" ng-maxlength="64" placeholder="2-64位">
+    <div class="text-danger alert alert-danger " ng-show="myAddArticleForm.title.$dirty && myAddArticleForm.title.$invalid">
+		<i class="glyphicon glyphicon-info-sign"></i>输入正确标题
+	</div>
+  </div>
+    <label  class="text-danger">※类型</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="article.type" name="type" required ng-minlength="2" ng-maxlength="32" placeholder="2-32位">
+    <div class="text-danger alert alert-danger " ng-show="myAddArticleForm.type.$dirty && myAddArticleForm.type.$invalid">
+		<i class="glyphicon glyphicon-info-sign"></i>输入正确类型
+	</div>
+  </div>
+  <label  class="text-danger" ng-if="sessionAcount.roleId==1000">※计费模式</label>
+  <div class=" comment-input-margin" ng-if="sessionAcount.roleId==1000">
+  <select style="width:180px;height:50px;" ng-model="article.model" name="model"   ng-options="model for model in ['CPC','CPM','CPS']">
+  </select>
+  </div>
+   <label class="text-danger" ng-if="sessionAcount.roleId==1000">※单价（必填）</label>
+  <div class="comment-input-margin " ng-if="sessionAcount.roleId==1000">
+    <input type="text" class="comment-input" required name="unitPrice"
+     ng-model="article.unitPrice" ng-pattern="/(^[+]?[1-9]\d*(\.\d{1,2})?$)|(^[+]?[0]{1}(\.\d{1,2})?$)/"  placeholder="两位小数" >
+    <div class="text-danger alert alert-danger " ng-show="myAddArticleForm.unitPrice.$dirty && myAddArticleForm.unitPrice.$invalid">
+		<i class="glyphicon glyphicon-info-sign"></i>两位小数
+	</div>
+  </div>
+   <label class="text-danger" ng-if="sessionAcount.roleId==1000">※总价（必填）</label>
+  <div class="comment-input-margin " ng-if="sessionAcount.roleId==1000">
+    <input type="text" class="comment-input" required name="totalPrice"
+     ng-model="article.totalPrice" ng-pattern="/(^[+]?[1-9]\d*(\.\d{1,2})?$)|(^[+]?[0]{1}(\.\d{1,2})?$)/"  placeholder="两位小数" >
+    <div class="text-danger alert alert-danger " ng-show="myAddArticleForm.totalPrice.$dirty && myAddArticleForm.totalPrice.$invalid">
+		<i class="glyphicon glyphicon-info-sign"></i>两位小数
+	</div>
+  </div>
+   <label class="text-danger" ng-if="sessionAcount.roleId==1000">※用户单价（必填）</label>
+  <div class="comment-input-margin " ng-if="sessionAcount.roleId==1000">
+    <input type="text" class="comment-input" required name="userUnitPrice"
+     ng-model="article.userUnitPrice" ng-pattern="/(^[+]?[1-9]\d*(\.\d{1,2})?$)|(^[+]?[0]{1}(\.\d{1,2})?$)/"  placeholder="两位小数" >
+    <div class="text-danger alert alert-danger " ng-show="myAddArticleForm.userUnitPrice.$dirty && myAddArticleForm.userUnitPrice.$invalid">
+		<i class="glyphicon glyphicon-info-sign"></i>两位小数
+	</div>
+  </div>
+    <label  class="text-danger" ng-if="sessionAcount.roleId==1000">※是否热门推荐，默认否</label>
+ <div class="comment-input-margin " ng-if="sessionAcount.roleId==1000">
+    <input type="radio" name="isRecommend"  ng-model="article.isRecommend" value="0"/>否
+	<input type="radio" name="isRecommend"  ng-model="article.isRecommend" value="1"/>是<br>
+  </div>
+   <label  class="text-danger" ng-if="sessionAcount.roleId==1000">※是否置顶，默认否</label>
+  <div class="comment-input-margin " ng-if="sessionAcount.roleId==1000">
+    <input type="radio" name="fixedRecommend"   ng-model="article.fixedRecommend" value="0"/>否
+	<input type="radio" name="fixedRecommend"  ng-model="article.fixedRecommend" value="1"/>是<br>
+  </div>
+  
+    <label  class="text-danger">※封面图片</label>
+  <div class="comment-input-margin">
+    <input type="file" class="comment-input"   id="articleImgFileUpload">
+  <div ng-repeat="img in article.imgList" style="display: inline-block;position: relative;" ng-mouseenter="delImgBtn=true">
+  <img style="width:300px;height: 200px;"   ng-src="{{img.imgAddress||''}}"/>
+  <span  ng-click="delImg(img)" style="background-color:#fff;position: absolute;top:0;right:0">×</span>
+  </div>
+  </div>
+  
+  <div>
+  <input type="radio"  ng-init="selectState=2"ng-show="sessionAcount.roleId==1000"  ng-click="selectState=1" ng-checked="selectState==1" ng-model="selectState" name="selectState"/>链接
+  <input type="radio"  ng-model="selectState" ng-click="selectState=2" ng-checked="selectState==2" name="selectState"/>内容
+  </div>
+  <label  class="text-default" ng-show="selectState==1">*链接地址</label>
+  <div class=" comment-input-margin" ng-show="selectState==1">
+    <input type="text" class=" comment-input"
+   ng-pattern="/((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?)/"
+      ng-model="article.redirectUrl" name="redirectUrl"
+      placeholder="http://或https://">
+      <div class="text-danger alert alert-danger " ng-show="myAddArticleForm.redirectUrl.$dirty && myAddArticleForm.redirectUrl.$invalid">
+		<i class="glyphicon glyphicon-info-sign"></i>链接地址错误
+	</div>
+     </div>
+     
+    <label  class="text-danger" ng-show="selectState==2">※内容</label>
+  <div class=" comment-input-margin" ng-show="selectState==2">
+        <textarea id="articleAddEditor" style="min-width:500px;min-height:500px;" >
+        <p></p>
+        </textarea>
+  </div>
+  <input type="submit" class="btn btn-lg btn-danger" 
+  ng-disabled="myAddArticleForm.$invalid || formDisabled" value="提交"/>
+</form>
+<!-- 增加 end-->

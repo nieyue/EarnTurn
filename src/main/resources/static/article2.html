@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html ng-app="detailsApp" ng-controller="detailsCtrl" >
+<head>
+<title ng-bind="article.title"></title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+<meta name="keywords" content="{{article.title}}">
+<meta charset="UTF-8">
+<meta name="description"
+	content="{{article.title}}">
+  <link href="http://www.newzhuan.com/resources/css/bootstrap.min.css" rel="stylesheet">
+ <link href="http://www.newzhuan.com/resources/css/swiper.min.css" rel="stylesheet">
+<link href="http://www.newzhuan.com/resources/css/base.css" rel="stylesheet">
+<style type="text/css">
+
+#newsDeatilsBody *{
+max-width:100% !important;
+}
+
+</style>
+</head>
+<body >
+	<div  class="comment-wrap "  >
+			<div class='loadAnimation' style="margin-top:105px !important;z-index:99999;" ><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+		<!-- 新闻列表 -->
+<!-- 		<div  style="margin-top:50px !important;display:none;" id="newsDeatilsBody"   > -->
+		<div style="margin-top:0px !important;display:none;" on-finish-render-filters id="newsDeatilsBody"   >
+		<div style="padding:2%;background-color:#fff;" >
+			<div class="media-center">
+			
+				<div >
+					<span style="font-size:1.2rem;font-weight:bold" ng-bind="article.title"></span>
+				</div>
+				<div class="text-muted" style="font-size:0.8rem;position:relative;margin:5px 0;">
+					<span ng-bind="article.createDate | limitTo :10" id="ad1-before"></span>
+					<a style="color:#336699" onclick="goZhuanzhuan()">转赚</a>
+					 <span style="color:#ccc; position:absolute;right:0;" >
+					阅读：<span ng-bind="article.readingNumber || '0'"></span>
+					</span>
+				</div >
+				
+				<!-- 广告1 -->
+		<div class="listGroup swiper-slide" style="height:100%;width:100%;margin:10px 0;" ng-repeat="article in ad1List" on-finish-render-filters ng-click="goAd(article)" >
+			<div class="media-center" style="position: relative;left: 0;top:0;height:100%;">
+						<img class="comment-list-item-img-response1 " style="max-height:50px;" 
+					ng-src="{{article.imgList[0].imgAddress}}" >
+			</div>
+		</div>
+		<!-- 广告1 end -->
+				<!-- 广告2 -->
+			<div    style="border-bottom:1px solid #ececec; " >
+			</div>
+		<div    style="border-bottom:1px solid #ececec;padding:5px 0;list-style-type: disc !important;color:#696565;font-size:12px" ng-repeat="article in ad2List">
+			&nbsp;&nbsp;&nbsp;&nbsp;● &nbsp;&nbsp;<span   on-finish-render-filters   ng-click="goAd(article)" ng-bind="article.title">
+			</span>
+			</div>
+		<!-- 广告2end -->
+				
+				 <div style="font-size:1em !important;" ng-bind-html="article.content" >
+				</div> 
+				<!--  <div style="color:#ccc;">
+					阅读：<span ng-bind="article.readingNumber || '0'"></span>
+				</div> -->
+				 <!-- <div style="color:#ccc;">
+					转发：<span ng-bind="article.turnNumber || '0'"></span>
+				</div> -->
+		<hr>
+		<div style="display:inline-block;border-bottom:1px solid #4780e5;margin-bottom:1px;margin:0 10px;">
+	        <span style="font-weight:bold;font-size:1.1rem">
+	        猜你喜欢
+	        </span>
+	    </div>
+				<!-- 广告3 -->
+		<div class="listGroup list-group media comment-list-item ad3" ng-repeat="article in ad3List" on-finish-render-filters  ng-click="goAd(article)">
+			<!-- 一张图片列表 -->
+			<div ng-if="article.imgList.length==0 ||article.imgList.length==1">
+			<div class="media-left" style="vertical-align:middle;width:32%;">
+				<a href="#" style="padding:5px 0 !important;position: relative;left: 0;top:0;display:inline-block;width:100%;">
+				 <img class="comment-list-item-img"
+					ng-src="{{article.imgList[0].imgAddress||'http://img.fuwu88.cn/uploaderPath/img/20170623/14981883995725043847212203.png'}}" >
+					<div ng-if="article.type=='视频'" class="video-radius"><div class="triangle-right"></div></div>
+				</a>
+			</div>
+			<div class="media-body comment-right-body">
+				<div class="pull-left">
+					<div class="comment-right-body-title">
+						<span style="font-size:0.85rem;overflow: hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-overflow:ellipsis;" ng-bind="article.title"></span>
+					</div>
+					<!-- <div class="text-muted" style="color:#bfbebe;font-size:14px;">
+					<span style="float: left;" class="newsType"  ng-bind="article.type"></span>
+					<span style="float: left;margin:0 5px;line-height:16px;">|</span>
+					<span   ng-bind="article.createDate | dateDiff"></span>
+					</div> -->
+				</div>
+			</div> 
+			</div>
+			<!-- 两张图片列表 -->
+			<div ng-if="article.imgList.length==2">
+					<div class="comment-right-body-title">
+						<span style="font-size:0.85rem;overflow: hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-overflow:ellipsis;" ng-bind="article.title"></span>
+					</div>
+			<div class="text-center">
+				<div ng-repeat="img in article.imgList" class="comment-list-item-img-response2" style="position: relative;left: 0;top:0;display:inline-block;">
+				 <img style="width:100%;"
+					ng-src="{{img.imgAddress}}" >
+					<div ng-if="article.type=='视频'" class="video-radius"><div class="triangle-right"></div></div>
+				</div>
+			</div>
+			<!-- <div class="media-body comment-right-body">
+				<div class="pull-left">
+					<div class="text-muted" style="color:#bfbebe;font-size:14px;">
+					<span style="float: left;" class="newsType"  ng-bind="article.type"></span>
+					<span style="float: left;line-height:16px;margin:0 5px;">|</span>
+					<span   ng-bind="article.createDate | dateDiff"></span>
+					</div>
+				</div>
+			</div> -->
+			</div>
+			<!-- 三张图片列表 -->
+			<div ng-if="article.imgList.length==3">
+					<div class="comment-right-body-title">
+						<span style="font-size:0.85rem;overflow: hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-overflow:ellipsis;" ng-bind="article.title"></span>
+					</div>
+			<div class="text-center" >
+				<div ng-repeat="img in article.imgList" class="comment-list-item-img-response3" style="position: relative;left: 0;top:0;display:inline-block;">
+				 <img  style="width:100%"
+					ng-src="{{img.imgAddress}}" >
+					<div ng-if="article.type=='视频'" class="video-radius"><div class="triangle-right"></div></div>
+				</div>
+			</div>
+			<!-- <div class="media-body comment-right-body">
+				<div class="pull-left">
+					<div class="text-muted" style="color:#bfbebe;font-size:14px;">
+					<span style="float: left;" class="newsType"  ng-bind="article.type"></span>
+					<span style="float: left;line-height:16px;margin:0 5px;">|</span>
+					<span   ng-bind="article.createDate | dateDiff"></span>
+					</div>
+				</div>
+			</div> -->
+			</div>
+		</div>
+		<!-- 广告3end -->
+		<!-- 广告位：信息流1 -->
+<script>
+(function() {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div id="' + s + '"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '4547030',
+        container: s,
+        size: '20,5',
+        display: 'inlay-fix'
+    });
+})();
+</script>
+
+
+				<!-- iframe -->
+				<iframe src="" id="Iframe" frameborder="0" scrolling="no" style="border:0px; 
+
+width:100%;margin-bottom:50px;"></iframe>
+				 		
+			</div>
+		</div>
+		</div>
+		</div>
+
+			
+		
+			<!-- 广告4悬浮 -->
+<div class="swiper-container swiper-container1" style="position:fixed;left:0;bottom:0;width:100%"   >
+    <div class="swiper-wrapper" >
+		<div class="listGroup swiper-slide" style="height:100%;width:100%" ng-repeat="article in ad4List" on-finish-render-filters ng-click="goAd(article)">
+			<div class="media-center" style="position: relative;left: 0;top:0;height:100%;">
+						<img class="comment-list-item-img-response1 " style="max-height:50px;" ng-src="{{article.imgList[0].imgAddress}}" >
+				<!-- <span  style="text-indent:0.5rem;font-size:0.9rem;z-
+
+index:99;position:absolute;left:0;bottom:3px;color:#fff;overflow: hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-
+
+box-orient:vertical;text-overflow:ellipsis;" ng-bind="article.title"></span>
+				<div style="z-index:9;background-color: #000;opacity: 
+
+0.5;height:30px;width:100%;position:absolute;left:0;bottom:0;"></div > -->
+			</div>
+		</div>
+    </div>
+		<div class="swiper-pagination" ></div>
+</div>
+		<!-- 广告4悬浮 end -->
+		<!-- 广告5悬浮 -->
+<div  style="position:fixed;right:3px;top:60%;display:none" ng-style="{display:ad5List.length>0?'block':'none'}"   ng-click="goAd(ad5List[0])">
+    <img alt="" style="height:60px;width:60px;" ng-src="{{ad5List[0].imgList[0].imgAddress}}">
+</div>
+		<!-- 广告5悬浮 end -->
+		<!-- cnzz -->
+		<div style="display:none;">
+		<!-- <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " 
+
+https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260079475'%3E%3C/span%3E%3Cscript src='" + 
+
+cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1260079475' type='text/javascript'%3E%3C/script%3E"));</script>
+ -->		</div>
+		
+	<script src="http://www.newzhuan.com/resources/js/jquery2.1.js"></script>
+	<!-- <script src="/resources/js/bootstrap3.2.0.js"></script> -->
+	<script src="http://www.newzhuan.com/resources/js/angularjs.min.1.5.7.js"></script>
+	<!-- <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> -->
+ 	<script src="http://www.newzhuan.com/resources/js/swiper.min.js"></script> 
+	<script  src="http://www.newzhuan.com/resources/js/base.js"></script>
+	<!-- <script src="/resources/js/weixinlogin.js"></script> -->
+
+	<script>
+new Swiper('.swiper-container1', {
+      //	pagination : '.swiper-pagination',
+        paginationClickable: true,
+		loop:true,
+		observer: true,//修改swiper自己或子元素时，自动初始化swiper
+         observeParents: true,//修改swiper的父元素时，自动初始化swiper
+        autoplay: 5000
+    });
+    //点击转赚
+		function goZhuanzhuan(){
+            if(navigator.appVersion.indexOf("Android")>-1){
+              location.href="http://a.app.qq.com/o/simple.jsp?pkgname=io.dcloud.H518260C7";
+            }else if(navigator.appVersion.indexOf("iPhone")>-1 || navigator.appVersion.indexOf("iPad")>-1){
+              location.href="https://www.pgyer.com/zeqf";  
+            }else{
+             location.href="http://a.app.qq.com/o/simple.jsp?pkgname=io.dcloud.H518260C7";
+            }
+		}
+	$(function(){
+	  	//获取data-src
+		$("img").each(function(){
+			if($(this).attr("data-src")){
+				$(this).attr("src",$(this).attr("data-src"));
+			}
+		});
+		
+	});
+    	var detailsApp=angular.module('detailsApp',[]);
+    	detailsApp.filter("dateDiff",function(){
+                return function(dateTimeStamp){
+                    return myUtils.getDateDiff(dateTimeStamp);
+                }
+            });
+           detailsApp.directive('onFinishRenderFilters', function() {
+					return {
+					restrict: 'A',
+					link: function(scope, element, attr) {
+					//console.log(scope)
+					//console.log(element)
+					//console.log(attr)
+					//if (scope.$last === true) {
+					if (scope.article) {
+					$("#newsDeatilsBody").show();
+					$(".loadAnimation").hide();
+					scope.$emit('ngRepeatFinished');
+					}
+					
+					}
+					};
+					}); 
+    	detailsApp.controller('detailsCtrl',function($rootScope,$scope,$sce){
+    	$scope.wapName="每日生活";
+    	//$scope.originDomain=location.host;
+    	$scope.originDomain="www.newzhuan.com";
+    	//初始化ad域名
+    	$.ajax({
+    		url:"http://"+$scope.originDomain+"/adDomain/get",
+    		async:false,  
+    		success:function(data){
+       			//console.log(data)
+       			if(data.code=='200'){
+       			var adDomain=data.list[0].adDomain;
+       			//"头协议"+分享域名
+         	$rootScope.adDomain=adDomain;
+         	var adDomainUrl="http://"+adDomain+"/ad.html";
+         	$("#Iframe").attr("src",adDomainUrl);
+         	
+       			return;
+       			}
+       	}});
+       			//广告
+      			function initAdList(ad,a){
+    			$.ajax({  
+    		          type : "get",  
+    		          url : "http://"+$scope.originDomain+"/article/list?pageNum="+a.pageNum+"&status="+a.status
+
++"&pageSize="+a.pageSize+"&type="+a.type+"&orderName="+a.orderName+"&orderWay="+a.orderWay+"",  
+    		          async : false,  
+    		          success : function(data){
+    		          if(data.length<=0){
+    		          $(".loadAnimation").hide();
+    		          	return;
+    		          }
+    		        	  if(a.pageNum>1){
+    		        		  for (var int = 0; int < data.length; int++) {
+    		        			$scope[ad].push(data.list[int]); 
+							}
+    		        	  }else{
+    		        	  $scope[ad]=data.list; 
+    		        	  } 
+    		        	  myUtils.myPrevToast("加载完成", null, "remove");
+    		          }  
+    		          });  
+    		}
+    		//广告1
+    		$scope.ad1={
+    		pageNum:1,
+    		pageSize:1,
+    		status:"正常",
+    		type:"广告1"
+    		};
+      			initAdList("ad1List",{
+    			pageNum:$scope.ad1.pageNum,
+    			pageSize:$scope.ad1.pageSize,
+    			status:$scope.ad1.status,
+    			type:$scope.ad1.type,
+    			orderName:"create_date",
+    			orderWay:"desc"
+    			});
+    		//广告2
+    			$scope.ad2={
+    		pageNum:1,
+    		pageSize:3,
+    		status:"正常",
+    		type:"广告2"
+    		};
+      			initAdList("ad2List",{
+    			pageNum:$scope.ad2.pageNum,
+    			pageSize:$scope.ad2.pageSize,
+    			status:$scope.ad2.status,
+    			type:$scope.ad2.type,
+    			orderName:"create_date",
+    			orderWay:"desc"
+    			});
+    		//广告3
+    			$scope.ad3={
+    		pageNum:1,
+    		pageSize:10,
+    		status:"正常",
+    		type:"广告3"
+    		};
+      			initAdList("ad3List",{
+    			pageNum:$scope.ad3.pageNum,
+    			pageSize:$scope.ad3.pageSize,
+    			status:$scope.ad3.status,
+    			type:$scope.ad3.type,
+    			orderName:"create_date",
+    			orderWay:"desc"
+    			});
+    			
+    		//广告4
+    			$scope.ad4={
+    		pageNum:1,
+    		pageSize:10,
+    		status:"正常",
+    		type:"广告4"
+    		};
+      			initAdList("ad4List",{
+    			pageNum:$scope.ad4.pageNum,
+    			pageSize:$scope.ad4.pageSize,
+    			status:$scope.ad4.status,
+    			type:$scope.ad4.type,
+    			orderName:"create_date",
+    			orderWay:"desc"
+    			});
+    		//广告5
+    			$scope.ad5={
+    		pageNum:1,
+    		pageSize:1,
+    		status:"正常",
+    		type:"广告5"
+    		};
+      			initAdList("ad5List",{
+    			pageNum:$scope.ad5.pageNum,
+    			pageSize:$scope.ad5.pageSize,
+    			status:$scope.ad5.status,
+    			type:$scope.ad5.type,
+    			orderName:"create_date",
+    			orderWay:"desc"
+    			});
+    		//jsAd广告
+    			function initJsAdList(){
+    			$.ajax({  
+    		          type : "get",  
+    		          url : "http://"+$scope.originDomain+"/jsAd/list",  
+    		          async : false,  
+    		          success : function(data){
+    		          if(data&& data.code==200){
+    		        	  $scope.jsAdList=data.list; 
+    		        	 // console.log($scope.jsAdList)
+    		        	  for(var i=0;i<$scope.jsAdList.length;i++){
+    		        	  myUtils.executeJS($scope.jsAdList[i]);
+    		        	  }
+    		        	  myUtils.myPrevToast("加载完成", null, "remove");
+    		          }
+    		          }  
+    		          });  
+    		}
+    		initJsAdList();
+    			
+    		//非跨域广告跳转	
+    		$scope.goAd=function(article){
+    				if(article.redirectUrl){
+    					location.replace(article.redirectUrl);
+    					
+    				}else{
+    					location.replace("http://"+location.host+"/article.html?acountId=1000&articleId="+article.articleId);
+    				
+    				}
+    		};	
+    			
+    			
+    			
+		//正文文章
+    		function initData(articleId,fixedRecommendSize,isRecommendSize){
+  		         
+  		          //加载文章 
+    			$.ajax({  
+  		          type : "get",  
+  		          url : "http://"+$scope.originDomain+"/article/"+articleId,  
+  		         // url : "/school/"+id,  
+  		          async : false,  
+  		          success : function(data){
+  		        	console.log(data);
+  		        	if(data.code==40000){
+  		        	myUtils.myTemplate("页面已删除")
+  		        	return;
+  		        	}
+  		        	data.list[0].content=$sce.trustAsHtml(data.list[0].content);
+    				$scope.article=data.list[0];
+    				//console.log($scope.article);
+    				//如果是跨域广告
+    				if(myUtils.GetQueryString("redirectUrl")&& $scope.article.type=='广告'){
+    				if($scope.article.redirectUrl){
+    					window.parent.parent.document.location.replace($scope.article.redirectUrl);
+    				}else{
+    					window.parent.parent.document.location.replace("http://"+location.host+"/article.html?acountId=1000&articleId="+$scope.article.articleId);
+    				
+    				}
+    				//既有文章内容又有文章跳转链接
+    				}else if($scope.article.redirectUrl && $scope.article.content){
+    					$("body").append("<div  style='width:100%;height:100%;position:fixed;left:0;top:0;z-index:9999999;background-color:#fff;'></div>");
+    					location.replace($scope.article.redirectUrl);
+    				}
+  		        	//$scope.news.content=$sce.trustAsHtml($scope.news.content);
+  		        	//微信分享接口
+  		        	/* if(myUtils.isWeiXinBrowse()){
+  		        		
+  		        		} */
+				 
+      		           
+  		         
+  		          }  
+  		          });  
+    			
+    			
+    		}
+    			var num=1;
+    				//点击
+            	function getClick(articleId,acountId){
+            	
+    		 var uv=0;//默认为0不是独立访客，没有uv,1为有uv
+            	 //只有不存在，才是新访客
+            	if(!myUtils.getCookie("articleUv"+myUtils.GetQueryString("articleId"))){
+            		myUtils.setCookie("articleUv"+myUtils.GetQueryString("articleId"), myUtils.GetQueryString("articleId"), myUtils.currentToEndTime());
+            		uv=1;
+            	}
+            		$.ajax({  
+  		          type : "post",  
+  		          url : "http://"+$scope.originDomain+"/article/click", 
+  		          data:{
+  		          articleId:articleId,
+  		          acountId:acountId,
+  		          uv:uv
+  		          }, 
+  		          success : function(data){
+  		         if(data.code!=200){
+  		         num++;
+  		         if(num<=3){
+  		         getClick(myUtils.GetQueryString("articleId"),myUtils.GetQueryString("acountId"));
+  		         }
+  		         return;
+  		         }
+  		          }  
+  		          });
+  		          }
+    		if(!myUtils.GetQueryString("articleId")){
+    		myUtils.myTemplate("页面已删除")
+    		return;}
+    		if(myUtils.GetQueryString("acountId")&&myUtils.userVerification.catNum.test(myUtils.GetQueryString("acountId"))){
+    		 getClick(myUtils.GetQueryString("articleId"),myUtils.GetQueryString("acountId"));//点击数据
+    		}
+    		initData(myUtils.GetQueryString("articleId"),1,1);
+    		
+    		
+    		
+    	});
+    	
+    	
+   </script>
+<!-- 广告位：悬浮1 -->
+<script>
+(function() {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div id="' + s + '"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '4547530',
+        container: s,
+        size: '20,2',
+        display: 'float'
+    });
+})();
+</script>
+<script src="http://dup.baidustatic.com/js/om.js"></script>
+
+</body>
+</html>

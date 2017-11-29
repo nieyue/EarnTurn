@@ -1,0 +1,143 @@
+<!-- 文章列表选择 -->
+<div style="margin:10px;">
+	<button class="btn btn-primary" ng-click="articleListByParams(acountId)">全部文章列表</button>
+	<button class="btn btn-danger" ng-click="articleListByParams(acountId,null,null,1)">热门置顶文章列表</button>
+	<button class="btn btn-info" ng-click="articleListByParams(acountId,null,1,null)">推荐文章列表</button>
+</div>
+<div style="margin:10px;">
+<p>动态分类列表</p>
+	<button class="btn btn-primary" ng-click="articleListByParams(acountId,type,null,null)" ng-repeat="type in types.list">{{type}}</button>
+</div>
+<!-- 文章列表选择end -->
+<!-- 文章列表 -->
+	<div class="panel panel-default" ng-hide="isEmail">
+  <!-- Default panel contents -->
+  		 <div class="panel-heading">文章列表<div style="color:red;">注意：*必须有acountId才能统计数据</div></div>
+  	</div>
+	<div class="listGroup panel panel-default" ng-repeat="article in articleList.list" >
+  <!-- Default panel contents -->
+ 		 <div class="panel-body">
+   		 	<div class="pull-left" style="vertical-align:middle">
+				<a ng-repeat="img in article.imgList" href="/article.html?articleId={{article.articleId}}">
+				 <img class=" comment-list-item-img " style="margin-top:3px;"
+					ng-src="{{img.imgAddress}}" >
+				</a>
+				<div ng-if="article.status=='正常'">
+				<span class="label  label-success" ng-bind="article.status"></span>
+				</div>
+				<div ng-if="article.status=='完成'">
+				<span class="label  label-info" ng-if="article.status=='完成'" ng-bind="article.status"></span>
+				</div>
+			</div>
+			<div class="media-body comment-right-body">
+				<div class="pull-left">
+					<div ng-if="sessionAcount.roleId==1000">
+					<span class="comment-right-body-title">单价：<span style="color:red;" ng-bind="article.unitPrice  ||'0.00' | number:2"></span>元</span>
+					<span class="comment-right-body-title">总额：<span style="color:red;" ng-bind="article.totalPrice  ||'0.00' | number:2"></span>元</span>
+					<span class="comment-right-body-title">计费模式：<span style="color:green;" ng-bind="article.model"></span></span>
+					</div>
+					<div ng-if="sessionAcount.roleId==1000">
+					<span class="comment-right-body-title">转发数：<span style="color:red;" ng-bind="article.turnNumber"></span></span>
+					<span class="comment-right-body-title">阅读数：<span style="color:red;" ng-bind="article.readingNumber||'0'"></span></span>
+					<span class="comment-right-body-title">消耗额：<span style="color:red;" ng-bind="article.nowTotalPrice ||'0.00' | number:2"></span>元</span>
+					</div>
+					<div>
+					<span class="comment-right-body-title">PV：<span style="color:red;" ng-bind="article.pvs||'0'"></span></span>
+					</div>
+					<div>
+					<span class="comment-right-body-title">UV：<span style="color:red;" ng-bind="article.uvs ||'0'"></span></span>
+					</div>
+					<div>
+					<span class="comment-right-body-title">IP：<span style="color:red;" ng-bind="article.ips ||'0'"></span></span>
+					</div>
+				</div>
+				<div class="pull-right">
+					<div class="comment-right-body-title"><span ng-bind="article.title"></span></div>
+					<div class="text-muted">
+					<div>
+					创建时间：<span ng-bind="article.createDate"></span>
+					</div>
+					<div>
+					更新时间：<span ng-bind="article.updateDate"></span>
+					</div>
+					<div>
+					类型：<span class="newsType" ng-bind="article.type"></span>
+					</div>
+					</div>
+					<button class=" btn btn-warning" ng-click="updateArticle(article)"><span class="glyphicon glyphicon-pencil"></span>编辑</button>
+				<!-- 	<button class=" btn btn-danger" ng-if="sessionAcount.roleId==1000" ng-click="delArticle(article)"><span class="glyphicon glyphicon-trash"></span>删除</button> -->
+				</div>
+			</div>
+					<div ng-if="article.redirectUrl!=null && article.redirectUrl!=''">
+						<span class="comment-right-body-title" >
+						跳转链接：<a style="color:#de1a8e;" href="{{article.redirectUrl}}">
+						{{article.redirectUrl}}
+						</a>
+						</span>
+					</div>
+					<div >
+						<span class="comment-right-body-title" >
+						文章链接：<a style="color:green;" href="{{shareDomainUrl}}/article.html?articleId={{article.articleId}}">
+						{{shareDomainUrl}}/article.html?articleId={{article.articleId}}
+						</a>
+						</span>
+					</div>
+					<div >
+						<span class="comment-right-body-title" >
+						推广链接示例：<a style="color:green;" href="{{shareDomainUrl}}/article.html?articleId={{article.articleId}}&acountId=1000">
+						{{shareDomainUrl}}/article.html?articleId={{article.articleId}}&acountId=1000
+						</a>
+						</span>
+					</div>
+					<div >
+						<span class="comment-right-body-title" >
+						三俗文章推广链接示例：<a style="color:green;" href="{{ssDomainUrl}}/article.html?articleId={{article.articleId}}&acountId=1000">
+						{{ssDomainUrl}}/article.html?articleId={{article.articleId}}&acountId=1000
+						</a>
+						</span>
+					</div>
+					<div ng-if="sessionAcount.roleId==1000">
+						<span class="comment-right-body-title">
+						平台数据链接：<a style="color:green;" href="{{mainDomainUrl}}/data_details.html?articleId={{article.articleId}}">
+						{{mainDomainUrl}}/data_details.html?articleId={{article.articleId}}
+						</a>
+						</span>
+					</div>
+					<div>
+						<span class="comment-right-body-title">
+						广告主数据链接：<a style="color:green;" href="{{mainDomainUrl}}/advertiser.html?articleId={{article.articleId}}">
+						{{mainDomainUrl}}/advertiser.html?articleId={{article.articleId}}
+						</a>
+						</span>
+					</div>
+					<div>
+						<span class="comment-right-body-title">
+						客户数据链接：<a style="color:green;" href="{{mainDomainUrl}}/customer.html?articleId={{article.articleId}}">
+						{{mainDomainUrl}}/customer.html?articleId={{article.articleId}}
+						</a>
+						</span>
+					</div>
+ 		 </div>
+ 		 
+  	</div>
+<!-- 文章列表end -->
+
+<!-- 加载更多 -->
+   <div >
+    <ul class="pagination " >
+    <li><a ng-click="toPage('首页',acountId,type,isRecommend,fixedRecommend)" >首页</a></li>
+    <li class="previous" ><a ng-click="toPage('previous',acountId,type,isRecommend,fixedRecommend)" >&larr;</a></li>
+
+    <li ng-repeat="currentPageNumber in showPageNumberArray"><a ng-click="toPage(currentPageNumber,acountId,type,isRecommend,fixedRecommend)" ng-class="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a ng-click="toPage('next',acountId,type,isRecommend,fixedRecommend)" >&rarr;</a></li>
+    <li><a ng-click="toPage('尾页',acountId,type,isRecommend,fixedRecommend)" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    <li>
+    <select style="width:100px;height:34px;" ng-model="currentPage" ng-change="toPage(currentPage,acountId,type,isRecommend,fixedRecommend)"   ng-options="currentPage as currentPage for currentPage in showAllPageNumberArray"> 
+    </select>
+    </li>
+    </ul>
+   </div>
+<!--  加载更多end -->

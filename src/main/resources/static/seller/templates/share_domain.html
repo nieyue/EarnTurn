@@ -1,0 +1,16 @@
+    <label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">添加分享文章域名</label>
+<br/>
+<!-- 增加 -->
+	<form novalidate name="myUpdateShareDomainForm" ng-submit="updateShareDomainForm()">
+ <label class="text-danger" ng-if="sessionAcount.roleId==1000">※分享文章域名（必填）</label>
+  <div class="comment-input-margin " ng-if="sessionAcount.roleId==1000">
+    <input type="text" class="comment-input" required name="shareDomain"
+     ng-model="domain.shareDomain" ng-pattern="/(^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$)/"  placeholder="如:www.baidu.com" >
+    <div class="text-danger alert alert-danger " ng-show="myUpdateShareDomainForm.shareDomain.$dirty && myUpdateShareDomainForm.shareDomain.$invalid">
+		<i class="glyphicon glyphicon-info-sign"></i>域名错误
+	</div>
+  </div>
+  <input type="submit" class="btn btn-lg btn-danger" 
+  ng-disabled="myUpdateShareDomainForm.$invalid || formDisabled" value="提交"/>
+</form>
+<!-- 增加 end-->

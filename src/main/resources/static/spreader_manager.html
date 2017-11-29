@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>推广数据</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+<meta name="keywords" content="数据列表">
+<meta charset="UTF-8">
+<meta name="description"
+	content="数据列表">
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/css/sellerbase.css" rel="stylesheet">
+<style>
+th,tr,td{
+text-align:center;}
+</style>
+</head>
+
+<body ng-app="indexApp">
+	<div ng-controller="indexCtrl"  style="margin:auto;max-width:1200px;">
+<!-- 数据标题-->
+<div style="margin:10px;">
+	 <div  class="text-danger" style="font-size:30px;color:#ccc;text-align:center;">总数据</div>
+	
+</div>
+<!-- 数据标题 end-->
+<!-- 数据列表 -->
+ <div style="width:100%">
+			<table class="table table-bordered" style="width:100%;background-color: #fff;">
+			<tr>
+			  <th>推广ID</th>
+			  <th>推广平台</th>
+			  <th>推广名</th>
+			  <th>推广方式</th>
+			  <th>app链接</th>
+			  <th>计费方式</th>
+			  <th>单价</th>
+			  <th>总价</th>
+			  <th>下载次数</th>
+			  <th>注册次数</th>
+			  <th>消耗额</th>
+			  <th>创建时间</th>
+			 <th>结束时间</th>
+			  <th>状态</th>
+			</tr>
+			<tr >
+			  <td>
+			  <span ng-bind="spread.spreadId"></span>
+			  </td>
+			  <td >
+			  <span ng-if="spread.platform==0" class="alert-info">Android</span>
+			  <span ng-if="spread.platform==1" class="alert-warning">IOS</span>
+			  </td>
+			  <td >
+			  <span ng-bind="spread.name"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="spread.method"></span>
+			  </td>
+			 <td >
+			  <a style="word-break: break-word;" href="{{spread.link}}">{{spread.link}}</a>
+			  </td> 
+			  <td >
+			  <span ng-if="spread.model==0">注册</span>
+			  <span ng-if="spread.model==1">下载</span>
+			  </td> 
+			  <td >
+			  <span ng-bind="spread.unitPrice"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="spread.totalPrice"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="spread.downloadNumber"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="spread.registerNumber"></span>
+			  </td>
+			 <td >
+			  <span ng-bind="spread.nowTotalPrice | number:2"></span>
+			  </td>
+			  <td ng-bind="spread.createDate"></td>
+			 <td ng-bind="spread.endDate"></td>
+			  <td >
+			  <span ng-bind="spread.status" ></span>
+			  </td>
+			</table>
+		</div>
+<!-- 数据列表end -->
+
+<!-- 数据标题-->
+<div style="margin:10px;">
+	 <div  class="text-danger" style="font-size:30px;color:#ccc;text-align:center;">每日数据</div>
+	
+</div>
+<!-- 数据标题 end-->
+<!-- 每日数据列表 -->
+ 	<div style="width:100%" ">
+			<table class="table table-bordered" style="width:100%;background-color: #fff;">
+			<thead>
+			<tr>
+			  <th>注册日期</th>
+			  <th>注册数</th>
+			  <th>活跃数</th>
+			  <th>留存率（%）</th>
+			</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="acountSpread in acountSpreadList" >
+				  <td ng-bind="acountSpread.createDate | limitTo:10"></td>
+				  <td >
+				  <span ng-bind="acountSpread.registerNum"></span>
+				  </td>
+				  <td ng-bind="acountSpread.activeNum"></td>
+				  <td >
+				  <span ng-bind="acountSpread.retention"></span>%
+				  </td>
+				</tr>
+			</tbody>
+			</table>
+		</div>
+		<!-- 加载更多 -->
+  <!--  <div >
+    <ul class="pagination " >
+    <li><a ng-click="toPage('首页')" >首页</a></li>
+    <li class="previous" ><a ng-click="toPage('previous')" >&larr;</a></li>
+
+    <li ng-repeat="currentPageNumber in showPageNumberArray"><a ng-click="toPage(currentPageNumber)" ng-class="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a ng-click="toPage('next')" >&rarr;</a></li>
+    <li><a ng-click="toPage('尾页')" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    </ul>
+   </div> -->
+<!--  加载更多end -->
+
+</div>
+	<!-- 页面列表end -->
+	<script src="/resources/js/jquery2.1.js"></script>
+	<script src="/resources/js/bootstrap3.2.0.js"></script>
+	<script src="/resources/js/angularjs.min.1.5.7.js"></script>
+	<script src="/resources/js/echarts.common.min.js"></script>
+	<script src="/resources/js/base.js"></script>
+	<script>
+	$(function(){
+	//获取data-src
+	$("img").each(function(index){
+		if($(this).attr("data-src")){
+			$(this).attr("src",$(this).attr("data-src"));
+		}
+	});
+	//$("#loadAnimationBody").css("display","none");
+	});
+    	var indexApp=angular.module('indexApp',[]);
+    	  indexApp.filter("dateDiff",function(){
+                return function(dateTimeStamp){
+                    return myUtils.getDateDiff(dateTimeStamp);
+                }
+            });
+       
+					
+    	indexApp.controller('indexCtrl',function($scope){
+    	$.ajaxSetup({async:false});
+     function spreadInit(){
+     $.get("/spread/"+myUtils.GetQueryString("spreadId"),function(pld){
+           $scope.spread=pld.list[0];
+			 console.log($scope.spread)
+               });
+     }
+     spreadInit();
+     //天数差 从建立推广开始算起
+     $scope.difference =new Date().getTime()-new Date($scope.spread.createDate).getTime();
+     //天数 ，  +1计算最新当天
+     $scope.days=$scope.difference/1000/60/60/24==0?parseInt($scope.difference/1000/60/60/24)+1:parseInt($scope.difference/1000/60/60/24)+2;
+     $scope.createDates=[];//注册时间
+     $scope.registerNums=[];//注册数目
+     $scope.cumulativeRegisterNums=[];//累计注册数目
+     $scope.activeNums=[];//活跃数
+     $scope.retentions=[];//留存率
+     
+     $scope.acountSpreadList=[];//最终展示
+     function daySpreadInit(){
+        $.get("/acount/data?spreadId="+myUtils.GetQueryString("spreadId")+"&pageSize=10000000&orderWay=asc",function(pld){
+           $scope.daySpreadList=pld.list;
+			 //存放createDate
+			  for(var i=0;i<$scope.days;i++){
+			$scope.createDates.push(myUtils.timeStampToDayDate(new Date($scope.spread.createDate).getTime()+24*3600*1000*i));
+			} 
+			/*  for(var i=0;i<$scope.daySpreadList.length;i++){
+			if($scope.createDates.indexOf(myUtils.timeStampToDayDate($scope.daySpreadList[i].createDate))<0){
+			$scope.createDates.push(myUtils.timeStampToDayDate($scope.daySpreadList[i].createDate));
+			}
+			}  */
+			//console.log($scope.createDates)
+			//循环天数
+			for(var j=0;j<$scope.createDates.length;j++){
+			$scope.registerNums.push([]);
+			$scope.cumulativeRegisterNums.push([]);
+			$scope.activeNums.push([]);
+			$scope.retentions.push([]);
+			if($scope.createDates.length>0){
+			//循环数目
+			for(var z=0;z<$scope.daySpreadList.length;z++){
+			//注册数目
+			if(myUtils.timeStampToDayDate($scope.daySpreadList[z].createDate)==$scope.createDates[j]){
+			$scope.registerNums[j].push($scope.daySpreadList[z]);
+			}
+			
+			//活跃数目
+			if( myUtils.timeStampToDayDate($scope.daySpreadList[z].createDate)<=$scope.createDates[j] && myUtils.timeStampToDayDate($scope.daySpreadList[z].loginDate)>=$scope.createDates[j]){
+			//console.log($scope.activeNums[j])
+			$scope.activeNums[j].push($scope.daySpreadList[z]);
+			}
+			}
+			
+			//累计注册数目
+			for(var xx=0;xx<j+1;xx++){
+			//console.log("xx="+xx)
+			$scope.cumulativeRegisterNums[j]=$scope.cumulativeRegisterNums[j].concat($scope.registerNums[xx]);
+			}
+			//console.log("j="+j)
+				//console.log($scope.activeNums[j])
+				//console.log($scope.cumulativeRegisterNums[j])
+			//留存率
+			$scope.retentions[j].push(($scope.activeNums[j].length/$scope.cumulativeRegisterNums[j].length)*100||0);
+			//console.log($scope.cumulativeRegisterNums[j].length)
+			$scope.acountSpreadList.push({
+			registerNum:$scope.registerNums[j].length,
+			activeNum:$scope.activeNums[j].length,
+			retention:parseFloat($scope.retentions[j]).toFixed(2),
+			createDate:$scope.createDates[j]
+			});
+			}
+			}
+			$scope.acountSpreadList.reverse();//反转
+               });
+     
+     }
+     daySpreadInit();
+               
+               
+       });
+    </script>
+</body>
+</html>

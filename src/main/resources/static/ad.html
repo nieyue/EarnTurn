@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html ng-app="indexApp" ng-controller="indexCtrl" ng-class="fontSize">
+<head>
+<title ng-bind="wapName"></title>
+<meta name="baidu_union_verify" content="d98a740e1480fdd663c524b7e4c0b3be">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+<meta name="keywords" content="{{wapName}}">
+<meta charset="UTF-8">
+<meta name="description"
+	content="{{wapName}}">
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/css/swiper.min.css" rel="stylesheet">
+<link href="/resources/css/base.css" rel="stylesheet">
+<style type="text/css">
+ iframe *{
+width:100%;
+height:100%;
+} 
+</style>
+</head>
+
+<body>
+	<div  class="comment-wrap ">
+		<!-- 新闻列表 -->
+		<div class='loadAnimation'style="margin-top:0px !important;z-index:99999;" ><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+		<div  style="margin-top:0px !important;display:none;overflow: hidden;" id="loadAnimationBody">
+		
+		<hr>
+		<div style="display:inline-block;border-bottom:1px solid #4780e5;margin-bottom:1px;margin:0 10px;">
+	        <span style="font-weight:bold;font-size:1.1rem">
+	        热门推荐
+	        </span>
+	    </div>
+		<!-- 第二列表 -->
+		<div  class="listGroup list-group media comment-list-item" ng-repeat="article in articleList" on-finish-render-filters  ng-click="goRedirectUrl(article.articleId,article.redirectUrl)">
+			<!-- 一张图片列表 -->
+			<div ng-if="article.imgList.length==0 ||article.imgList.length==1" style="width:100%;">
+			<div class="media-body comment-right-body" style="display:inline-block;width:65%;">
+				<div class="pull-left">
+					<div class="comment-right-body-title">
+						<span style="font-size:1rem;overflow: hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-overflow:ellipsis;" ng-bind="article.title"></span>
+					</div>
+					<div class="text-muted" style="color:#bfbebe;font-size:9px;">
+					<!--  <span style="float: left;">
+					<img style="width:10px;height:10px;"   src="http://img.newzhuan.com/uploaderPath/img/20170710/14996852163959251491845075.png"/>
+					</span> -->
+					 <span style="float: left;border:1px solid red;color:red;text-align:center;width:18px;height:16px;border-radius:3px;line-height:16px">热</span>
+					 <span style="float: left;margin-left:5px; line-height:18px;" class="newsType" >100000+ 阅读</span>
+					</div> 
+				</div>
+			</div>
+			<div class="media-left" style="vertical-align:middle;width:33%;padding-right:0 !important;display:inline-block;">
+				 <img class="comment-list-item-img"
+					ng-src="{{article.imgList[0].imgAddress||'http://img.fuwu88.cn/uploaderPath/img/20170623/14981883995725043847212203.png'}}" >
+					<div ng-if="article.type=='视频'" class="video-radius"><div class="triangle-right"></div></div>
+				<!-- <a href="#" style="padding:5px 0 !important;position: relative;left: 0;top:0;display:inline-block;width:100%;">
+				</a> -->
+			</div> 
+			</div>
+			<!-- 两张图片列表 -->
+			<div ng-if="article.imgList.length==2">
+					<div class="comment-right-body-title">
+						<span style="font-size:1rem;overflow: hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-overflow:ellipsis;" ng-bind="article.title"></span>
+					</div>
+			<div class="text-center" style="margin-bottom:6px;">
+				<div ng-repeat="img in article.imgList" class="comment-list-item-img-response2" style="position: relative;left: 0;top:0;display:inline-block;">
+				 <img style="width:100%;"
+					ng-src="{{img.imgAddress}}" >
+					<div ng-if="article.type=='视频'" class="video-radius"><div class="triangle-right"></div></div>
+				</div>
+			</div>
+			 <div class="media-body comment-right-body">
+				<div class="pull-left">
+					<div class="text-muted" style="color:#bfbebe;font-size:9px;">
+					 <span style="float: left;border:1px solid red;color:red;text-align:center;width:18px;height:16px;border-radius:3px;line-height:16px">热</span>
+					 <span style="float: left;margin-left:5px;line-height:18px;" class="newsType" >100000+ 阅读</span>
+					</div>
+				</div>
+			</div> 
+			</div>
+			<!-- 三张图片列表 -->
+			<div ng-if="article.imgList.length==3">
+					<div class="comment-right-body-title">
+						<span style="font-size:1rem;overflow: hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-overflow:ellipsis;" ng-bind="article.title"></span>
+					</div>
+			<div class="text-center" style="margin-bottom:6px;">
+				<div ng-repeat="img in article.imgList" class="comment-list-item-img-response3" style="position: relative;left: 0;top:0;display:inline-block;">
+				 <img  style="width:100%"
+					ng-src="{{img.imgAddress}}" >
+					<div ng-if="article.type=='视频'" class="video-radius"><div class="triangle-right"></div></div>
+				</div>
+			</div>
+			<div class="media-body comment-right-body">
+				<div class="pull-left">
+					<div class="text-muted" style="color:#bfbebe;font-size:9px;">
+					 <span style="float: left;border:1px solid red;color:red;text-align:center;width:18px;height:16px;border-radius:3px;line-height:16px">热</span>
+					 <span style="float: left;margin-left:5px;line-height:18px;" class="newsType" >100000+ 阅读</span>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+		<!-- 第二列表end -->
+		<!-- 底部end -->
+		<!-- <div class="comment-bottom" ng-if="noMore">Copyright 2017 itcast Inc,All rights reserved.</div>
+ -->		<!--  底部end -->
+		</div>
+		<!-- 新闻列表end -->
+		
+	</div>
+		<!-- cnzz -->
+		<div style="display:none;">
+		</div>
+		<iframe id="c_iframe"  height="0" width="0"  src="" style="display:none" ></iframe>
+<!-- 		<iframe id="c_iframe"  height="0" width="0"  src="http://www.newzhuan.com/cross_domain_agent.html" style="display:none" ></iframe> -->
+
+	<script src="/resources/js/jquery2.1.js"></script>
+	<script src="/resources/js/bootstrap3.2.0.js"></script>
+	<script src="/resources/js/angularjs.min.1.5.7.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script src="/resources/js/swiper.min.js"></script>
+	<script src="/resources/js/base.js"></script>
+	<script>
+	$(function(){
+	//获取data-src
+	$("img").each(function(index){
+		if($(this).attr("data-src")){
+			$(this).attr("src",$(this).attr("data-src"));
+		}
+	});
+	  
+	//$("#loadAnimationBody").css("display","none");
+	
+	});
+    	var indexApp=angular.module('indexApp',[]);
+    	  indexApp.filter("dateDiff",function(){
+                return function(dateTimeStamp){
+                    return myUtils.getDateDiff(dateTimeStamp);
+                }
+            });
+            indexApp.directive('onFinishRenderFilters', function() {
+					return {
+					restrict: 'A',
+					link: function(scope, element, attr) {
+					if (scope.$last === true) {
+					$("#loadAnimationBody").show();
+					$(".loadAnimation").hide();
+					scope.$emit('ngRepeatFinished');
+	
+					//自动高度
+					  (function autoHeight(){
+					  var b_width;
+					  var b_height;
+					        var c_iframe = document.getElementById("c_iframe");
+					        var csrc=c_iframe.src;
+					        console.log(c_iframe.src )
+					   var num=0;
+					    var interval=setInterval(function(){
+					    if(num>=3){
+					    clearInterval(interval);
+					    return;
+					    }
+					         b_width = Math.max(document.body.scrollWidth,document.body.clientWidth);
+					        b_height = Math.max(document.body.scrollHeight,document.body.clientHeight);
+					        c_iframe.src = csrc + "#" + b_width + "|" + b_height;  // 这里通过hash传递b.htm的宽高
+					    	var ciframe=$("#c_iframe");
+					    	ciframe.appendTo("body");
+					    	console.log(c_iframe.src )
+					    	num++;
+					    }, 200);
+					    })();
+					}
+					}
+					};
+					});
+					
+    	indexApp.controller('indexCtrl',function($rootScope,$scope){
+    	$scope.wapName="";
+    	//$scope.originDomain=location.host;
+    	$scope.originDomain="www.newzhuan.com";
+    	//http://www.newzhuan.com/cross_domain_agent.html
+    	//初始化share域名
+  /*   	function initShareDomain(){
+    	 $.ajax({
+    		url:"http://"+$scope.originDomain+"/gmwDomain/get",
+    		async:false,  
+    		success:function(data){
+       			console.log(data)
+       			if(data.code=='200'){
+       			var shareDomain=data.list[0].shareDomain;
+       			$rootScope.shareDomain=shareDomain;
+       			//"头协议"+分享域名
+         	var shareDomainUrl="http://"+shareDomain+"/cross_domain_agent.html";
+       			//$rootScope.$apply();
+       		$("#c_iframe").attr("src",shareDomainUrl);
+       			return;
+       			}
+       	}});
+       	 
+    	} */
+       	//获取父域名
+       	function getParentDomain(){
+       	var urlReg = /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/;  
+       	var url=null;
+       	if(parent!==window){
+       	try{
+       	url=urlReg.exec(parent.location.href)[0];
+       	}catch(e){
+       	url=urlReg.exec(document.referrer)[0];
+       	}
+       	return url;
+       	}
+       	}
+       	$rootScope.shareDomain=getParentDomain();
+       	//初始化三级域名
+       	$("#c_iframe").attr("src","http://"+getParentDomain()+"/cross_domain_agent.html");
+
+    		function initData(a){
+    			$.ajax({  
+    		          type : "get",  
+    		          url : "http://"+$scope.originDomain+"/article/list?type="+a.type+"&status="+a.status+"&pageNum="+a.pageNum+"&pageSize="+a.pageSize+"&orderName="+a.orderName+"&orderWay="+a.orderWay+"",  
+    		          async : false,  
+    		          success : function(data){
+    		          if(data.list.length<=0){
+    		          $(".loadAnimation").hide();
+    		          	return;
+    		          }
+    		        	  if(a.pageNum>1){
+    		        		  for (var int = 0; int < data.length; int++) {
+    		        			$scope.articleList.push(data.list[int]); 
+							}
+    		        	  }else{
+    		        	  $scope.articleList=data.list; 
+    		        		   
+    		        	  } 
+    		        	  myUtils.myPrevToast("加载完成", null, "remove");
+    		          }  
+    		          });  
+    		}
+    		
+    		$scope.noMore=false;//false还有，true没有更多
+    		$scope.pageNum=1;//第多少个
+    		$scope.pageSize=100;//每页个数
+    		$scope.type="广告";//初始化类别
+    		$scope.status="正常";//初始化状态
+    			initData({
+    			pageNum:$scope.pageNum,
+    			pageSize:$scope.pageSize,
+    			type:$scope.type,
+    			status:$scope.status,
+    			orderName:"create_date",
+    			orderWay:"desc"
+    			});
+    			//滚动刷新
+    		function onReachBottom(){
+    			$scope.pageNum=$scope.pageNum+$scope.pageSize;
+    			$scope.pageSize=$scope.pageSize;
+    			myUtils.myFootLoadingToast("relative",null,function(){
+    			var gurl="http://"+$scope.originDomain+"/article/list?pageNum="+$scope.pageNum+"&pageSize="+$scope.pageSize+"&type="+$scope.type+"&status="+$scope.status+"&orderName=create_date&orderWay=desc";
+    			$.ajax({  
+  		          type : "get",
+  		          timeout: 3000,
+  		          async : false,
+  		          url : gurl,  
+  		          complete: function (xhr) {
+                  myUtils.myFootLoadingToast("relative",null,null,"remove");
+  				if(xhr.responseJSON&&xhr.responseJSON.code==40000){
+  				$scope.noMore=true;
+                  myUtils.myLoadingToast("没有更多了！");
+                	return ;
+         		 }
+  				},
+  		          success : function(data){
+  		      		     myUtils.myFootLoadingToast("relative",null,null,"remove");
+  		        	 if(data.list.length<=0){
+  		        	 $scope.noMore=true;
+  		        	 $scope.$apply();
+  		        	      return;
+  		        	    }
+  		        	    	$scope.noMore=false;
+  		      		        console.log($scope.articleList)
+  		      		        $scope.articleList=$scope.articleList.concat(data.list);
+  		      		        $scope.$apply();
+  		      		         myUtils.myPrevToast("加载完成", null, "remove");
+  		          }  
+  		          });
+    			},"add");
+  		}
+    		$(window).scroll(function(){
+        		console.log($scope.noMore);
+        		if(!navigator.onLine){
+        		myUtils.myLoadingToast("请检查网络！");
+        		return;
+        		}
+        		if(navigator.onLine && $scope.noMore==false && myUtils.isScrollBottom(document)){
+        			onReachBottom();
+        		}
+        			
+        		});
+    		
+    		//跳转页面
+    		$scope.goRedirectUrl=function(articleId,redirectUrl){
+    			//跳回article.html
+    			
+    			console.log("http://"+$rootScope.shareDomain+"/article.html?articleId="+articleId+"&acountId=1000&redirectUrl="+redirectUrl)
+    			location.replace("http://"+$rootScope.shareDomain+"/article.html?articleId="+articleId+"&acountId=1000&redirectUrl="+redirectUrl)
+    			//点击跳转
+    			/* var ciframe=$("#c_iframe");
+    			ciframe.attr("src", ciframe.attr("src") + "#redirect" + redirectUrl);
+    			ciframe.appendTo("body"); */
+    		};
+
+    	});
+    </script>
+    
+    <!-- 广告位：zhuanzhuan2 -->
+<!-- <script>
+(function() {
+	document.domain='chinastocksblog.net';
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div id="' + s + '"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '4523910',
+        container: s,
+        size: '20,5',
+        display: 'inlay-fix'
+    });
+})();
+</script>
+<script src="http://dup.baidustatic.com/js/om.js"></script> -->
+
+<!--  <script>
+(function() {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div id="' + s + '"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '4523115',
+        container: s,
+        size: '6,5',
+        display: 'inlay-fix'
+    });
+})();
+</script>
+<script src="http://dup.baidustatic.com/js/om.js"></script> -->
+
+<!-- <script>
+(function() {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div id="' + s + '"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '4529092',
+        container: s,
+        size: '20,3',
+        display: 'inlay-fix'
+    });
+})();
+</script>
+<script src="http://dup.baidustatic.com/js/om.js"></script> -->
+<script>
+window.onload=function(){
+function insertAfter(newElement, targetElement){
+var parent = targetElement.parentNode;
+if (parent.lastChild == targetElement) {
+// 如果最后的节点是目标元素，则直接添加。因为默认是最后
+parent.appendChild(newElement);
+}
+else {
+parent.insertBefore(newElement, targetElement.nextSibling);
+//如果不是，则插入在目标元素的下一个兄弟节点 的前面。也就是目标元素的后面
+}
+}
+/* var baidu4523910=document.createElement("iframe");
+baidu4523910.setAttribute("id","baidu4523910");
+baidu4523910.setAttribute("scrolling","no");
+baidu4523910.setAttribute("width","100%");
+baidu4523910.setAttribute("frameborder","0");
+baidu4523910.setAttribute("src","http://pos.baidu.com/nctm?sz=414x104&conwid=414&conhei=104&rtbid=2846553&rdid=11860518&dc=2&di=4523910&dri=0&dis=0&dai=1&ps=0x0&dcb=___adblockplus&dtm=HTML_POST&dvi=0.0&dci=-1&dpt=none&tsr=0&tpr=1500258778192&ari=2&dbv=0&drs=1&pcs=414x736&pss=414x736&cfv=0&cpl=0&chi=2&cce=true&cec=UTF-8&tlm=1500258834&rw=414&ltu=http%3A%2F%2Fwww.chinastocksblog.net%2Fad.html&ecd=1&uc=414x736&pis=-1x-1&sr=414x736&tcn=1500258778&qn=45c9c40068e8db7c&dpv=45c9c40068e8db7c&tt=1500258778118.250.78.183")
+document.querySelector("body").appendChild(baidu4523910); */
+
+/* var baidu4523115=document.createElement("iframe");
+baidu4523115.setAttribute("id","baidu4523115");
+baidu4523115.setAttribute("scrolling","no");
+baidu4523115.setAttribute("frameborder","0");
+baidu4523115.setAttribute("src","http://m.baidu.com/cpro.php?Z1_K00aKFkAaQPIt8kU90xqI7J47xZIujD1v0UnEejKM4xR5QGiF-BVyGydpNlNV8Qv5CbJ5RL6TrcYZfrPPgJRQCpc30-qSwIeztZqLfJ4G0WguhZbRgT9YKgw_t0oitI7KankIKNtgiWdFwc5Z6fH8K1QCMv677dzC1l0t9Tzu3FqWRs.7Y_iuTAMZ4RTDH5-8vc6hes_YD_TraAG5y5ZGmtDIKY5UZxwIJt5-bvUo5ZI8_ol32AM-WI6h9ikAMHMEukmnOKGyFWub_LXrH_tXyZZn_nYQZZk3vy2.IgF_5y9YIZ0lQzqLILT8mv9GUh71IAqWpLPBUAqMQh4-Iaq9ua4CIAd_0ZwV5HcLPjnkP1RsnfKYIHYYPHc1nHDd0Zwb5HDkrjR4P1nv0ZI_5Hc0mv4YUWY3nW0dP1cYPdqWTZc0mv9VujYk0ZPWpAdb5HD0TL0qnHT0ug9Y5H00mywWUA71T1Ys0ZPbpdqv5H00ULnqnHD0mMcqnHn0Iv-bIA6qn1ms0A9-pyICIjY1nj00IvbqnfK3pg0q0ZP-UAmqn0K1uAVxIhNzTv-EUWY0Uh71IZ0qn0KzT1Ys0APh5H00mLwV5gw-UgK_mgw-gv-8UA74gv7_U7qVUvFGUAR0Uh7YIHY40A-Ypyfqn0KGIA-8uhqGujYs0AIspyfqn0Kzuyuspyfqn0KWTZFEpyfqfHmdP1fdn19KfYfkPYN7PbfYnHnvnHfznDDdfHn3wjb0mvqVTAk-5H00mywxT1YknvfLnhnkPWIBnAwbnHm40Ak9UjY0mgwGujY0mgwYXHY0ILPzm1Ys0A7-gLw9TWY0pgPxpLw95fK1UZPzm1Ys0ZP_mv_qn0K1UAVGujYs0AFduAI-I7q-XZKGujYs0A7GTjYdIL63nYIWHHKlP6Kdpg0qT-FGuhb3pLuwHA30mv6qP1DsPj0k0Zw9TWYz0ZP-UAk-T-qGujY30A-1gv7sTjYs0A7sT7qGujYs0APdTLfq0A-1gLIGThN_ugP15HD0Iv7sgLw4TARqnfKsUjYs0AdW5yckmvwBm1bv0Adv5HD0UMus5H08nj0snj0snj00u1bqnfKhpgF1I7qzuyIGUv3qnHb0TvNWUv4bgLF-uv-EUWY1Pjn0TLPs5H60TLPsnWYs0ZwYTjYk0AwGTLws5H00mycqnfK9uZ6qnfKsuMwzmyw-5H00TZPYTh7buHYs0ZKGujYs0ZIspyfqn0K9uZw4TARqn0K1pgF-Uhw-TWYs0ZPLpyfqn0K1IZ-suHYs0AwYTjYz0A-YUHYs0A4YIZ0qn6K9uAcqn0KWThnqnWRzP60")
+document.querySelector("body").appendChild(baidu4523115); */
+
+function createBaiDuAd(ids){
+for(var i=0;i<ids.length;i++){
+var baidudiv=document.createElement("div");
+baidudiv.style.borderTop="1px solid #ececec";
+baidudiv.style.margin="0 10px";
+baidudiv.style.padding="10px 0";
+var baidu=document.createElement("iframe");
+baidu.setAttribute("id","baidu4529092");
+baidu.setAttribute("scrolling","no");
+baidu.setAttribute("width","100%");
+baidu.setAttribute("height","70px");
+baidu.setAttribute("margin-bottom","2px");
+baidu.setAttribute("padding","10px 0");
+baidu.setAttribute("frameborder","0");
+baidu.setAttribute("src","http://pos.baidu.com/ychm?sz=414x63&rtbid=2847136&rdid=11865192&dc=2&di="+ids[i]+"&dri=0&dis=0&dai=1&ps=0x0&dcb=___adblockplus&dtm=HTML_POST&dvi=0.0&dci=-1&dpt=none&tsr=0&tpr=1500255142151&ari=2&dbv=0&drs=1&pcs=414x736&pss=414x786&cfv=0&cpl=0&chi=2&cce=true&cec=UTF-8&tlm=1500255194&rw=414&ltu=http%3A%2F%2Fwww.chinastocksblog.net%2Fad.html&ecd=1&uc=414x736&pis=-1x-1&sr=414x736&tcn=1500255142&qn=3eabf345a7cee62e&dpv=3eabf345a7cee62e&tt=1500255142135.18.41.44")
+baidudiv.appendChild(baidu);
+insertAfter(baidudiv,document.querySelectorAll(".listGroup")[i]);
+}
+}
+
+createBaiDuAd([4529092,4535060,4535068,4535074,4535084,4535092,4535197,4535203,4535211]);
+}
+</script>
+<script>
+(function() {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div id="' + s + '"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '4529092',
+        container: s,
+        size: '20,3',
+        display: 'inlay-fix'
+    });
+})();
+</script>
+<script>
+(function() {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div id="' + s + '"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '4535060',
+        container: s,
+        size: '20,5',
+        display: 'inlay-fix'
+    });
+})();
+</script>
+<script>
+(function() {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div id="' + s + '"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '4535068',
+        container: s,
+        size: '20,3',
+        display: 'inlay-fix'
+    });
+})();
+</script><script>
+(function() {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div id="' + s + '"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '4535074',
+        container: s,
+        size: '20,3',
+        display: 'inlay-fix'
+    });
+})();
+</script><script>
+(function() {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div id="' + s + '"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '4535084',
+        container: s,
+        size: '20,3',
+        display: 'inlay-fix'
+    });
+})();
+</script><script>
+(function() {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div id="' + s + '"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '4535092',
+        container: s,
+        size: '20,3',
+        display: 'inlay-fix'
+    });
+})();
+</script><script>
+(function() {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div id="' + s + '"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '4535197',
+        container: s,
+        size: '20,3',
+        display: 'inlay-fix'
+    });
+})();
+</script><script>
+(function() {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div id="' + s + '"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '4535203',
+        container: s,
+        size: '20,3',
+        display: 'inlay-fix'
+    });
+})();
+</script><script>
+(function() {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div id="' + s + '"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '4535211',
+        container: s,
+        size: '20,3',
+        display: 'inlay-fix'
+    });
+})();
+</script>
+
+<script src="http://dup.baidustatic.com/js/om.js"></script>
+
+</body>
+</html>

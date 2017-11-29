@@ -1,0 +1,45 @@
+    <label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">添加JS广告</label>
+<br/>
+<!-- 增加 -->
+	<form novalidate name="myAddJsAdForm" ng-submit="addJsAdForm()">
+ <label class="text-danger" ng-if="sessionAcount.roleId==1000">※JS广告（必填）</label>
+  <div class="comment-input-margin " ng-if="sessionAcount.roleId==1000">
+    <input type="text" class="comment-input" required name="value"
+     ng-model="jsAd.value"  placeholder="如:http://xxx.xxx.xx/xx.js" >
+    <div class="text-danger alert alert-danger " ng-show="myAddJsAdForm.value.$dirty && myAddJsAdForm.value.$invalid">
+		<i class="glyphicon glyphicon-info-sign"></i>js链接、代码或script标签
+	</div>
+  </div>
+  <input type="submit" class="btn btn-lg btn-danger" 
+  ng-disabled="myAddJsAdForm.$invalid || formDisabled" value="提交"/>
+</form>
+<!-- 增加 end-->
+
+<!-- JS广告列表选择 -->
+<div style="margin:10px;">
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">JS广告列表</label>
+</div>
+<!-- JS广告列表选择end -->
+<!-- JS广告列表 -->
+		<div style="width:100%" class="tableWrap">
+			<table class="table table-bordered" style="width:100%">
+			<tr>
+			  <th>序号</th>
+			  <th>域名</th>
+			  <th>操作</th>
+			</tr>
+			<tr ng-repeat="jsAd in jsAdList" >
+			  <td >
+			  <span ng-bind="$index+1"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="jsAd"></span>
+			  </td>
+			  <td >
+			  <span class="btn btn-danger" ng-click="delJsAd(jsAd)">删除</span>
+			  </td>
+			</tr>
+			</table>
+		</div>
+<!-- JS广告列表end -->
+	<!-- 页面列表end -->

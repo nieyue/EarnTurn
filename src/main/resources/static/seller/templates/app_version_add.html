@@ -1,0 +1,48 @@
+    <label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">添加App版本</label>
+<br/>
+<!-- 增加 -->
+	<form novalidate name="myAddAppVersionForm" ng-submit="addAppVersionForm()">
+    <label  class="text-danger">※App版本名</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="appVersion.name" name="name" required ng-minlength="2" ng-maxlength="8" placeholder="2-8位">
+    <div class="text-danger alert alert-danger " ng-show="myAddAppVersionForm.name.$dirty && myAddAppVersionForm.name.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确App版本名
+				    </div>
+  </div>
+  <label  class="text-danger" >※App平台</label>
+  <div class=" comment-input-margin" >
+  <select style="width:180px;height:50px;" ng-model="appVersion.platform" name="platform"
+   ng-init="appVersion.platform=0"  ng-options="model==0?'Android':model==1?'IOS':'' for model in models;models=[0,1]">
+  </select>
+  </div>
+  <label  class="text-danger" >※App类型</label>
+  <div class=" comment-input-margin" >
+  <select style="width:180px;height:50px;" ng-model="appVersion.type" name="type" ng-init="appVersion.type=0"  ng-options="model==0?'普通':model==1?'强制':'' for model in models;models=[0,1]">
+  </select>
+  </div>
+  <label  class="text-danger">※App更新内容</label>
+  <div class=" comment-input-margin">
+    <textarea type="text" style="width:500px;min-height:300px;resize: vertical;" class=" comment-input" ng-model="appVersion.content" name="content" required ng-minlength="2" ng-maxlength="255" placeholder="2-255位">
+    </textarea>
+<div class="text-danger alert alert-danger " ng-show="myAddAppVersionForm.content.$dirty && myAddAppVersionForm.content.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确更新内容
+				    </div>
+  </div>
+    <label  class="text-danger">※App下载链接</label>
+  <div class="comment-input-margin">
+    <input type="file" class="comment-input"   id="appVersionLinkFileUpload">
+  <div>
+  <div>
+  <span><a href="{{appVersion.link}}">{{appVersion.link}}</a></span>
+  </div>
+  </div>
+  </div>
+  <label  class="text-danger" >※App状态</label>
+  <div class=" comment-input-margin" >
+  <select style="width:180px;height:50px;" ng-model="appVersion.status" name="status" ng-init="appVersion.status=0"  ng-options="model==0?'上线':model==1?'未上线':'' for model in models;models=[0,1]">
+  </select>
+  </div>
+  <input type="submit" class="btn btn-lg btn-danger" 
+  ng-disabled=" myAddAppVersionForm.$invalid || formDisabled " value="提交"/>
+</form>
+<!-- 增加 end-->

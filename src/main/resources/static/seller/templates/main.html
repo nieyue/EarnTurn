@@ -1,0 +1,17 @@
+  	<!-- 主体导航 -->	
+  	<div ui-view="topbar"></div>
+  	<!-- 主体导航 end-->	
+  	<!-- 主体内容 -->	
+  	<div class="seller-main-body">
+		<div class="seller-main-body-left">
+  		<div ui-view="leftbar"></div>
+		</div>
+  		<div class="seller-main-body-right">
+  		<div ui-view="rightbody"></div>
+  		</div>
+  	</div>
+  	<!-- 主体内容end -->	
+<div style="position:fixed;right:50%;top:8px;z-index:999999;">
+         	<button  class="btn btn-success" ng-click="tableWrapMove('left')" >←最左</button>
+			<button  class="btn btn-success" ng-click="tableWrapMove('right')">最右→</button>
+		</div>

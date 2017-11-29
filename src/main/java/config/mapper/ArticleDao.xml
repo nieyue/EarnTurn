@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.nieyue.dao.ArticleDao">
+<!-- 添加文章 -->
+<insert id="addArticle" parameterType="Article" keyProperty="articleId" flushCache="true"  >  
+   INSERT IGNORE INTO
+   		  article_tb 
+   		 (type,title,is_recommend,fixed_recommend,redirect_url,content,model,user_unit_price,unit_price,total_price,turn_number,reading_number,user_now_total_price,now_total_price,scale,pvs,uvs,ips,status,create_date,update_date,acount_id)
+   VALUES
+    	 (#{type},#{title},#{isRecommend},#{fixedRecommend},#{redirectUrl},#{content},#{model},#{userUnitPrice},#{unitPrice},#{totalPrice},#{turnNumber},#{readingNumber},#{userNowTotalPrice},#{nowTotalPrice},#{scale},#{pvs},#{uvs},#{ips},#{status},#{createDate},#{updateDate},#{acountId})  
+</insert>  
+<!-- 更新文章 -->
+<update id="updateArticle" parameterType="Article" >  
+    UPDATE 
+    	article_tb 
+    SET 
+    	type=#{type},
+    	title=#{title},
+    	is_recommend=#{isRecommend},
+    	fixed_recommend=#{fixedRecommend},
+    	redirect_url=#{redirectUrl},
+    	<if test="content!=null">
+    	content=#{content},
+    	</if>
+    	model=#{model},
+    	user_unit_price=#{userUnitPrice},
+    	unit_price=#{unitPrice},
+    	total_price=#{totalPrice},
+    	turn_number=#{turnNumber},
+    	reading_number=#{readingNumber},
+    	user_now_total_price=#{userNowTotalPrice},
+    	now_total_price=#{nowTotalPrice},
+    	scale=#{scale},
+    	pvs=#{pvs},
+    	uvs=#{uvs},
+    	ips=#{ips},
+    	status=#{status},
+    	create_date=#{createDate},
+    	update_date=#{updateDate},
+    	acount_id=#{acountId}
+    WHERE
+    	 article_id=#{articleId} 
+</update> 
+<!-- 删除文章-->
+<delete id="delArticle"  parameterType="Integer" >  
+    DELETE FROM
+    	 article_tb 
+    	 WHERE article_id=#{articleId}
+</delete>  
+<!-- 加载文章-->
+<select id="loadArticle" parameterType="Integer" resultType="Article" >
+SELECT 
+		article_id,
+	 	type,
+    	title,
+    	is_recommend,
+    	fixed_recommend,
+    	redirect_url,
+    	content,
+    	model,
+    	user_unit_price,
+    	unit_price,
+    	user_now_total_price,
+    	now_total_price,
+    	total_price,
+    	turn_number,
+    	reading_number,
+    	scale,
+    	pvs,
+    	uvs,
+    	ips,
+    	status,
+    	create_date,
+    	update_date,
+    	acount_id
+FROM article_tb 
+WHERE article_id=#{articleId}
+</select>
+<!-- 加载文章Small-->
+<select id="loadSmallArticle" parameterType="Integer" resultType="Article" >
+SELECT 
+		article_id,
+	 	type,
+    	title,
+    	is_recommend,
+    	fixed_recommend,
+    	redirect_url,
+    	<!-- content, -->
+    	model,
+    	user_unit_price,
+    	unit_price,
+    	user_now_total_price,
+    	now_total_price,
+    	total_price,
+    	turn_number,
+    	reading_number,
+    	scale,
+    	pvs,
+    	uvs,
+    	ips,
+    	status,
+    	create_date,
+    	update_date,
+    	acount_id
+FROM article_tb 
+WHERE article_id=#{articleId}
+</select>
+
+<!-- 分页查询文章-->
+<select id="browsePagingArticle" resultType="Article">  
+    SELECT
+	    article_id,
+	 	type,
+    	title,
+    	is_recommend,
+    	fixed_recommend,
+    	redirect_url,
+    	<!-- content, -->
+    	model,
+    	user_unit_price,
+    	unit_price,
+    	user_now_total_price,
+    	now_total_price,
+    	total_price,
+    	turn_number,
+    	reading_number,
+    	scale,
+    	pvs,
+    	uvs,
+    	ips,
+    	status,
+    	create_date,
+    	update_date,
+    	acount_id
+	FROM article_tb
+	<where>
+	<if test="status!=null">
+	AND  status=#{status}
+	</if>
+	<if test="acountId!=null">
+	AND  acount_id=#{acountId}
+	</if>
+	<if test="type!=null">
+	AND  type=#{type}
+	</if>
+	<if test="isRecommend!=null">
+	AND  is_recommend=#{isRecommend}
+	</if>
+	<if test="fixedRecommend!=null">
+	AND  fixed_recommend=#{fixedRecommend}
+	</if>
+	AND ${orderName} 
+	<if test="orderWay=='asc'">
+	<![CDATA[>=]]> 
+	</if>
+	<if test="orderWay=='desc'">
+	  <![CDATA[<= ]]>
+	</if>
+	(SELECT ${orderName} FROM article_tb 
+	<where>
+	<if test="status!=null">
+	AND  status=#{status}
+	</if>
+	<if test="acountId!=null">
+	AND  acount_id=#{acountId}
+	</if>
+	<if test="type!=null">
+	AND  type=#{type}
+	</if>
+	<if test="isRecommend!=null">
+	AND  is_recommend=#{isRecommend}
+	</if>
+	<if test="fixedRecommend!=null">
+	AND  fixed_recommend=#{fixedRecommend}
+	</if>
+	</where>
+		ORDER BY 
+			${orderName}  ${orderWay}
+		LIMIT #{pageNum}, 1
+		) 
+	</where>
+	ORDER BY
+		${orderName}  ${orderWay}
+	LIMIT
+		#{pageSize}
+</select> 
+<!-- 文章数据-->
+<select id="browseArticleData" resultType="ArticleDataDTO">  
+    SELECT
+	   SUM(pvs ) pvs, 
+	   SUM(uvs) uvs, 
+	   SUM(ips) ips,
+	   SUM(reading_number) readingNumber,
+	   SUM(now_total_price) nowTotalPrice,
+	   SUM(user_now_total_price) userNowTotalPrice
+	FROM article_tb
+	<where>
+	<if test="acountId!=null">
+	AND  acount_id=#{acountId}
+	</if>
+	</where>
+</select> 
+<!-- 文章日数据-->
+<select id="browseArticleDayData" resultType="ArticleDayDataDTO">  
+   SELECT 
+	dtb.pvs pvs,
+	dtb.uvs uvs,
+	dtb.ips ips,
+	ptb.number number,
+	ptb.money userNowTotalPrice,
+	(ptb.money-ptb1.money) userSelfNowTotalPrice,
+	ptb1.money userPartnerNowTotalPrice,
+	dtb.create_date create_date
+	FROM 
+	(SELECT
+	  SUM(number) number,
+	  SUM(money) money,
+	   DATE(create_date)  create_date
+	FROM profit_tb
+	<where>
+	<if test="startDate!=null">
+	AND  DATE(create_date)<![CDATA[>= ]]>DATE(#{startDate})
+	</if>
+	<if test="endDate!=null">
+	AND  DATE(create_date)<![CDATA[<= ]]>DATE(#{endDate})
+	</if>
+	</where>
+	GROUP BY DATE(create_date)
+	) ptb 
+	left join
+	(SELECT
+	  SUM(money) money,
+	  DATE(create_date)  create_date
+	FROM profit_tb
+	<where>
+	type=1
+	<if test="startDate!=null">
+	AND  DATE(create_date)<![CDATA[>= ]]>DATE(#{startDate})
+	</if>
+	<if test="endDate!=null">
+	AND  DATE(create_date)<![CDATA[<= ]]>DATE(#{endDate})
+	</if>
+	</where>
+	GROUP BY DATE(create_date)
+	) ptb1
+	on DATE(ptb.create_date) = DATE(ptb1.create_date )
+	left join 
+	 (SELECT
+	   SUM(pvs ) pvs, 
+	   SUM(uvs) uvs, 
+	   SUM(ips) ips,
+	   DATE(create_date) create_date
+	FROM data_tb
+	<where>
+	<if test="startDate!=null">
+	AND  DATE(create_date)<![CDATA[>= ]]>DATE(#{startDate})
+	</if>
+	<if test="endDate!=null">
+	AND  DATE(create_date)<![CDATA[<= ]]>DATE(#{endDate})
+	</if>
+	</where>
+	GROUP BY DATE(create_date)
+	) dtb
+	on DATE(ptb1.create_date) = DATE(dtb.create_date )
+
+	
+</select> 
+<!-- 文章类型-->
+<select id="browseArticleTypeList" resultType="String">  
+    SELECT
+	    type
+	FROM article_tb
+	<where>
+	<if test="acountId!=null">
+	AND  acount_id=#{acountId}
+	</if>
+	AND type !='' 
+	</where>
+	GROUP BY
+	type
+</select> 
+
+<!-- 统计记录条数 -->
+<select id="countAll"  resultType="int">  
+	SELECT
+	 	count(article_id)
+	FROM article_tb
+	<where>
+	<if test="status!=null">
+	AND  status=#{status}
+	</if>
+		<if test="acountId!=null">
+		AND  acount_id=#{acountId}
+		</if>
+		<if test="type!=null">
+		AND  type=#{type}
+		</if>
+		<if test="isRecommend!=null">
+		AND  is_recommend=#{isRecommend}
+		</if>
+		<if test="fixedRecommend!=null">
+		AND  fixed_recommend=#{fixedRecommend}
+		</if>
+	</where>
+</select>   
+   
+ 
+</mapper>

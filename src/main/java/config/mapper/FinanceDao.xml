@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.nieyue.dao.FinanceDao">
+<!-- 添加财务 -->
+<insert id="addFinance" parameterType="Finance" keyProperty="financeId" flushCache="true"  >  
+   INSERT IGNORE INTO
+   		  finance_tb 
+   		 (money,recharge,consume,withdrawals,partner_profit,base_profit,bank_user_name,bank_name,bank_account,bank_address,update_date,acount_id)
+   VALUES
+    	 (#{money},#{recharge},#{consume},#{withdrawals},#{partnerProfit},#{baseProfit},#{bankUserName},#{bankName},#{bankAccount},#{bankAddress},#{updateDate},#{acountId})  
+</insert>  
+<!-- 更新财务 -->
+<update id="updateFinance" parameterType="Finance" >  
+    UPDATE 
+    	finance_tb 
+    SET 
+    	money=#{money},
+    	recharge=#{recharge},
+    	consume=#{consume},
+    	withdrawals=#{withdrawals},
+    	partner_profit=#{partnerProfit},
+    	base_profit=#{baseProfit},
+    	bank_user_name=#{bankUserName},
+    	bank_name=#{bankName},
+    	bank_account=#{bankAccount},
+    	bank_address=#{bankAddress},
+    	update_date=#{updateDate},
+    	acount_id=#{acountId}
+    WHERE
+    	 finance_id=#{financeId} 
+</update> 
+<!-- 删除财务-->
+<delete id="delFinance"  parameterType="Integer" >  
+    DELETE FROM
+    	 finance_tb 
+    	 WHERE finance_id=#{financeId}
+</delete>  
+<!-- 加载财务-->
+<select id="loadFinance" parameterType="Integer" resultType="Finance" >
+SELECT 
+		finance_id,
+	 	money,
+    	recharge,
+    	consume,
+    	withdrawals,
+    	partner_profit,
+    	base_profit,
+    	bank_user_name,
+    	bank_name,
+    	bank_account,
+    	bank_address,
+    	update_date,
+    	acount_id
+FROM finance_tb 
+WHERE finance_id=#{financeId}
+</select>
+
+<!-- 收益排行榜-->
+<select id="browsePagingFinanceByAcountId" resultType="AcountDTO">  
+   <!-- 单人收益排行榜-->
+   <if test="acountId!=null">
+   SELECT b.acount_id,b.nickname,b.icon,b.profitMoneyOrderNum,b.profitMoney from ( 
+   SELECT
+        a.acount_id,
+    	a.nickname,
+    	a.icon,
+    	(@profitMoneyOrderNum:=@profitMoneyOrderNum+1) as profitMoneyOrderNum ,
+	(f.money+f.withdrawals+f.consume-f.recharge) profitMoney
+	FROM acount_tb a RIGHT JOIN finance_tb f
+	ON a.acount_id=f.acount_id
+	,(select (@profitMoneyOrderNum:=#{pageNum})) profitMoneyOrderNum
+	WHERE a.role_id=1003 
+	ORDER BY
+		${orderName}  ${orderWay}
+	) b  WHERE b.acount_id=#{acountId}
+   </if>
+	<!-- end -->
+   <!-- 多个收益排行榜-->
+   <if test="acountId==null">
+   SELECT
+        a.acount_id,
+    	a.nickname,
+    	a.icon,
+    	(@profitMoneyOrderNum:=@profitMoneyOrderNum+1) as profitMoneyOrderNum ,
+	(f.money+f.withdrawals+f.consume-f.recharge) profitMoney
+	FROM acount_tb a RIGHT JOIN finance_tb f
+	ON a.acount_id=f.acount_id
+	,(select (@profitMoneyOrderNum:=#{pageNum})) profitMoneyOrderNum
+	WHERE a.role_id=1003 
+	ORDER BY
+		${orderName}  ${orderWay}
+	LIMIT
+		#{pageNum},#{pageSize}
+		 </if>
+	<!-- end -->
+</select> 
+<!-- 分页查询财务-->
+<select id="browsePagingFinance" resultType="Finance">  
+    SELECT
+	    finance_id,
+	 	money,
+    	recharge,
+    	consume,
+    	withdrawals,
+    	partner_profit,
+    	base_profit,
+    	bank_user_name,
+    	bank_name,
+    	bank_account,
+    	bank_address,
+    	update_date,
+    	acount_id
+	FROM finance_tb
+	<where>
+	<if test="acountId!=null">
+	AND  acount_id=#{acountId}
+	</if>
+	AND ${orderName} 
+	<if test="orderWay=='asc'">
+	<![CDATA[>=]]> 
+	</if>
+	<if test="orderWay=='desc'">
+	  <![CDATA[<= ]]>
+	</if>
+	(SELECT ${orderName} FROM finance_tb 
+	<where>
+	<if test="acountId!=null">
+	AND  acount_id=#{acountId}
+	</if>
+	</where>
+		ORDER BY 
+			${orderName}  ${orderWay}
+		LIMIT #{pageNum}, 1
+		) 
+	</where>
+	ORDER BY
+		${orderName}  ${orderWay}
+	LIMIT
+		#{pageSize}
+</select> 
+
+<!-- 统计记录条数 -->
+<select id="countAll"  resultType="int">  
+	SELECT
+	 	count(finance_id)
+	FROM finance_tb
+	<where>
+		<if test="acountId!=null">
+		AND  acount_id=#{acountId}
+		</if>
+	</where>
+</select>   
+   
+ 
+</mapper>

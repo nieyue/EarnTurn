@@ -1,0 +1,125 @@
+<!-- 推广列表选择 -->
+<div style="margin:10px;">
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">推广列表</label>
+</div>
+<!-- 推广列表选择end -->
+<!-- 分类 -->
+<div style="margin:10px;">
+<!-- <button class="btn btn-primary "  ng-click="spreadListByPlatform('','')">全部列表</button>
+<button class="btn btn-info" ng-click="spreadListByPlatform(0,'')" >Android</button>
+<button class="btn btn-warning" ng-click="spreadListByPlatform(1,'')" >IOS</button>
+<button class="btn btn-info" ng-click="spreadListByPlatform('',0)" >上线</button>
+<button class="btn btn-warning" ng-click="spreadListByPlatform('',1)" >未上线</button>
+<button class="btn btn-info" ng-click="spreadListByPlatform(0,0)" >上线Android</button>
+<button class="btn btn-warning" ng-click="spreadListByPlatform(0,1)" >未上线Android</button>
+<button class="btn btn-info" ng-click="spreadListByPlatform(1,0)" >上线IOS</button>
+<button class="btn btn-warning" ng-click="spreadListByPlatform(1,1)" >未上线IOS</button> -->
+</div>
+<!-- 分类end -->
+<!-- 推广列表 -->
+		<div style="width:100%" class="tableWrap">
+			<table class="table table-bordered" style="width:100%">
+			<tr>
+			  <th>序号</th>
+			  <th>推广ID</th>
+			  <th>推广平台</th>
+			  <th>推广名</th>
+			  <th>推广方式</th>
+			  <th>app链接</th>
+			  <th>计费方式</th>
+			  <th>单价</th>
+			  <th>总价</th>
+			  <th>下载次数</th>
+			  <th>注册次数</th>
+			  <th>消耗额</th>
+			  <th>创建时间</th>
+			  <th>结束时间</th>
+			  <th>状态</th>
+			  <th >操作</th> 
+			</tr>
+			<tr ng-repeat="spread in spreadList.list" >
+			  <td >
+			  <span ng-bind="(currentPage-1)*pageNumber+$index+1"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="spread.spreadId"></span>
+			  </td>
+			  <td >
+			  <span ng-if="spread.platform==0" class="alert-info">Android</span>
+			  <span ng-if="spread.platform==1" class="alert-warning">IOS</span>
+			  </td>
+			  <td >
+			  <span ng-bind="spread.name"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="spread.method"></span>
+			  </td>
+			  <td >
+			  <a style="word-break: break-word;" href="{{spread.link}}">{{spread.link}}</a>
+			  </td>
+			  <td >
+			  <span ng-if="spread.model==0">注册</span>
+			  <span ng-if="spread.model==1">下载</span>
+			  </td>
+			  <td >
+			  <span ng-bind="spread.unitPrice"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="spread.totalPrice"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="spread.downloadNumber"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="spread.registerNumber"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="spread.nowTotalPrice | number:2"></span>
+			  </td>
+			  <td ng-bind="spread.createDate"></td>
+			  <td ng-bind="spread.endDate"></td>
+			  <td >
+			  <span ng-bind="spread.status" ></span>
+			  </td>
+			 <td >
+			<!--   <button class=" btn btn-warning" ng-click="updatespread(spread)">修改</button> -->
+			  <!-- <button class=" btn btn-danger" ng-click="delSpread(spread)">删除</button> -->
+					<div>
+						<span class="comment-right-body-title">
+						平台推广数据链接：<a style="color:green;" href="{{mainDomainUrl}}/spreader_manager.html?spreadId={{spread.spreadId}}">
+						{{mainDomainUrl}}/spreader_manager.html?spreadId={{spread.spreadId}}
+						</a>
+						</span>
+					</div>
+					<div>
+						<span class="comment-right-body-title">
+						推广数据链接：<a style="color:green;" href="{{mainDomainUrl}}/spreader.html?spreadId={{spread.spreadId}}">
+						{{mainDomainUrl}}/spreader.html?spreadId={{spread.spreadId}}
+						</a>
+						</span>
+					</div>
+			  </td>
+			</tr>
+			</table>
+		</div>
+<!-- 推广列表end -->
+	<!-- 页面列表end -->
+<!-- 加载更多end -->
+   <div >
+    <ul class="pagination " >
+    <li><a ng-click="toPage('首页',platform,status)" >首页</a></li>
+    <li class="previous" ><a ng-click="toPage('previous',platform,status)" >&larr;</a></li>
+
+    <li ng-repeat="currentPageNumber in showPageNumberArray"><a ng-click="toPage(currentPageNumber,platform,status)" ng-class="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a ng-click="toPage('next',platform,status)" >&rarr;</a></li>
+    <li><a ng-click="toPage('尾页',platform,status)" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    <li>
+    <select style="width:100px;height:34px;" ng-model="currentPage" ng-change="toPage(currentPage,platform,status)"    ng-options="currentPage as currentPage for currentPage in showAllPageNumberArray"> 
+    </select>
+    </li>
+    </ul>
+   </div>
+<!--  加载更多end -->

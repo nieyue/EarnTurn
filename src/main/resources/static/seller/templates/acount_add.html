@@ -1,0 +1,101 @@
+    <label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">添加账户</label>
+<br/>
+<!-- 增加 -->
+	<form novalidate name="myAddAcountForm" ng-submit="addAcountForm()">
+    <label  class="text-danger">※昵称</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="acount.nickname" name="nickname" required ng-minlength="2" ng-maxlength="16" placeholder="2-16位">
+    <div class="text-danger alert alert-danger " ng-show="myAddAcountForm.nickname.$dirty && myAddAcountForm.nickname.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确账户昵称
+				    </div>
+  </div>
+  <label class="text-danger" ng-if="sessionAcount.roleId==1000">※合伙人收益比例（必填）</label>
+  <div class="comment-input-margin " ng-if="sessionAcount.roleId==1000">
+    <input type="text" class="comment-input" required name="scale"
+     ng-model="acount.scale" ng-pattern="/(^[0]$|^(0\.(0[0-9]{1}|[0-9]\d?)|1(\.0{1,2})?)$)/"  placeholder="0-1之间两位小数" >
+    <div class="text-danger alert alert-danger " ng-show="myAddAcountForm.scale.$dirty && myAddAcountForm.scale.$invalid">
+		<i class="glyphicon glyphicon-info-sign"></i>0-1之间两位小数
+	</div>
+  </div>
+  <label  class="text-danger">※性别</label>
+  <div class=" comment-input-margin">
+  <select style="width:180px;height:50px;" ng-model="acount.sex" name="sex" ng-init="acount.sex=0"   ng-options="sex.id as sex.value for sex in [{id:0,value:'其他'},{id:1,value:'男性'},{id:2,value:'女性'}]">
+  </select>
+  </div>
+    <label  class="text-danger">真实姓名</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="acount.realname" name="realname"  ng-minlength="2" ng-maxlength="16" placeholder="2-16位">
+    <div class="text-danger alert alert-danger " ng-show="myAddAcountForm.realname.$dirty && myAddAcountForm.realname.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入真实姓名
+				    </div>
+  </div>
+    <label  class="text-danger">※电话</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="acount.phone" name="phone" required pattern="^1[0-9]{10}$" placeholder="输入正确账户电话">
+    <div class="text-danger alert alert-danger " ng-show="myAddAcountForm.phone.$dirty && myAddAcountForm.phone.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确账户电话
+				    </div>
+  </div>
+    <label  class="text-danger">email</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="acount.email" name="email"  pattern="^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+(\.[a-zA-Z]{2,3})+$" placeholder="输入正确账户email">
+    <div class="text-danger alert alert-danger " ng-show="myAddAcountForm.email.$dirty && myAddAcountForm.email.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确账户email
+				    </div>
+  </div>
+    <label  class="text-danger">※密码</label>
+  <div class=" comment-input-margin">
+    <input type="password" class=" comment-input" ng-model="acount.password" name="password" required ng-minlength="6" ng-maxlength="16" placeholder="6-16位">
+    <div class="text-danger alert alert-danger " ng-show="myAddAcountForm.password.$dirty && myAddAcountForm.password.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确账户密码
+				    </div>
+  </div>
+    <label  class="text-danger">身份证</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="acount.identityCards" name="identityCards"  pattern="^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$" placeholder="请填写15/18位身份证">
+    <div class="text-danger alert alert-danger " ng-show="myAddAcountForm.identityCards.$dirty && myAddAcountForm.identityCards.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>请填写15/18位身份证
+				    </div>
+  </div>
+    <label  class="text-danger">QQ</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="acount.qq" name="qq" ng-minlength="6" ng-maxlength="16" placeholder="6-16位">
+    <div class="text-danger alert alert-danger " ng-show="myAddAcountForm.qq.$dirty && myAddAcountForm.qq.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确账户QQ
+				    </div>
+  </div>
+    <label  class="text-danger">微信</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="acount.wechat" name="wechat"  ng-minlength="2" ng-maxlength="32" placeholder="2-32位">
+    <div class="text-danger alert alert-danger " ng-show="myAddAcountForm.wechat.$dirty && myAddAcountForm.wechat.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确账户微信
+				    </div>
+  </div>
+    <label  class="text-danger">微博</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="acount.microblog" name="microblog"  ng-minlength="2" ng-maxlength="16" placeholder="2-16位">
+    <div class="text-danger alert alert-danger " ng-show="myAddAcountForm.microblog.$dirty && myAddAcountForm.microblog.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确账户微博
+				    </div>
+  </div>
+    <label  class="text-danger">支付宝</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="acount.alipay" name="alipay"  ng-minlength="2" ng-maxlength="32" placeholder="2-32位">
+    <div class="text-danger alert alert-danger " ng-show="myAddAcountForm.alipay.$dirty && myAddAcountForm.alipay.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确支付宝
+				    </div>
+  </div>
+    <label  class="text-danger">※角色</label>
+  <div class=" comment-input-margin">
+  <select style="width:180px;height:50px;" ng-model="acount.roleId" name="roleId" ng-init="acount.roleId=1000"   ng-options="role.roleId as role.name for role in roleList">
+  </select>
+  </div>
+    <label  class="text-danger">※状态</label>
+  <div class=" comment-input-margin">
+  <select style="width:180px;height:50px;" ng-model="acount.status" name="status" ng-init="acount.status=0"   ng-options="aco.id as aco.value for aco in [{id:0,value:'正常'},{id:1,value:'锁定'},{id:2,value:'异常'}]">
+  </select>
+  </div>
+  <input type="submit" class="btn btn-lg btn-danger" 
+  ng-disabled="myAddAcountForm.$invalid || formDisabled" value="提交"/>
+</form>
+<!-- 增加 end-->

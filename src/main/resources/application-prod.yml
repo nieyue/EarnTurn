@@ -1,0 +1,43 @@
+server:
+  port: 8081
+  session:
+    timeout: 1800
+  #address: acount.yayao8.com
+  tomcat:
+    max-threads: 1000
+    min-spare-threads: 200
+    accept-count: 1000
+    max-connections: 1000
+ # connection-timeout: 60 
+spring:
+   datasource:
+     name: master
+     driver-class-name: com.mysql.jdbc.Driver
+     url: jdbc:mysql://39.108.60.100:3306/earn_turn_db
+     username: root
+     password: liliu
+   redis:
+     host: 39.108.60.100
+     password: liliu
+     port: 6379 
+     database: 1
+     timeout: 3000
+     pool: 
+       min-idle: 100
+       max-idle: 300
+       max-active: 800 
+myPugin: 
+  projectName: EarnTurn
+  location: /home/config/thirdParty.properties
+  articleUrl: http://www.newzhuan.com/article.html
+  shareUrl: http://www.newzhuan.com/share.html
+  shareDomain: www.newzhuan.com
+  gmwDomain: www.newzhuan.com
+  ssDomain: www.newzhuan.com
+  adDomain: www.chinastocksblog.net
+  jsAd: console.log('prod')
+  requestAuth: requestAuthProd
+  rabbitmq:
+    DIRECT_EXCHANGE: jiaxing.exchange.direct
+    DIRECT_ROUTINGKEY: jiaxing.routingkey.direct
+    DIRECT_QUEUE: jiaxing.queue.direct

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.nieyue.dao.ImgDao">
+<!-- 添加图片 -->
+<insert id="addImg" parameterType="Img" keyProperty="imgId" flushCache="true"  >  
+   INSERT IGNORE INTO
+   		  img_tb 
+   		 (img_address,number,article_id)
+   VALUES
+    	 (#{imgAddress},#{number},#{articleId})  
+</insert>  
+<!-- 更新图片 -->
+<update id="updateImg" parameterType="Img" >  
+    UPDATE 
+    	Img_tb 
+    SET 
+    	img_address=#{imgAddress},
+    	number=#{number},
+    	article_id=#{articleId}
+    WHERE
+    	 img_id=#{imgId} 
+</update> 
+<!-- 删除图片-->
+<delete id="delImg"  parameterType="Integer" >  
+    DELETE FROM
+    	 img_tb 
+    	 WHERE img_id=#{imgId}
+</delete>  
+<!-- 加载图片-->
+<select id="loadImg" parameterType="Integer" resultType="Img" >
+SELECT 
+		img_id,
+	 	img_address,
+    	number,
+    	article_id
+FROM img_tb 
+WHERE img_id=#{imgId}
+</select>
+
+<!-- 分页查询图片-->
+<select id="browsePagingImg" resultType="Img">  
+    SELECT
+	    img_id,
+	 	img_address,
+    	number,
+    	article_id
+	FROM img_tb
+	<where>
+	<if test="articleId!=null">
+	AND  article_id=#{articleId}
+	</if>
+	AND ${orderName} 
+	<if test="orderWay=='asc'">
+	<![CDATA[>=]]> 
+	</if>
+	<if test="orderWay=='desc'">
+	  <![CDATA[<= ]]>
+	</if>
+	(SELECT ${orderName} FROM img_tb 
+	<where>
+	<if test="articleId!=null">
+	AND  article_id=#{articleId}
+	</if>
+	</where>
+		ORDER BY 
+			${orderName}  ${orderWay}
+		LIMIT #{pageNum}, 1
+		) 
+	</where>
+	ORDER BY
+		${orderName}  ${orderWay}
+	LIMIT
+		#{pageSize}
+</select> 
+
+<!-- 统计记录条数 -->
+<select id="countAll"  resultType="int">  
+	SELECT
+	 	count(img_id)
+	FROM img_tb
+	<where>
+		<if test="articleId!=null">
+		AND  article_id=#{articleId}
+		</if>
+	</where>
+</select>   
+   
+ 
+</mapper>

@@ -1,0 +1,16 @@
+    <label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">添加全局合伙人收益比例增量</label>
+<br/>
+<!-- 增加 -->
+	<form novalidate name="myUpdateScaleIncrementForm" ng-submit="updateScaleIncrementForm()">
+ <label class="text-danger" ng-if="sessionAcount.roleId==1000">※合伙人收益增量比例（必填）</label>
+  <div class="comment-input-margin " ng-if="sessionAcount.roleId==1000">
+    <input type="text" class="comment-input" required name="scaleValue"
+     ng-model="scale.scaleValue" ng-pattern="/(^[0]$|^(0\.(0[0-9]{1}|[0-9]\d?)|1(\.0{1,2})?)$)/"  placeholder="0-1之间两位小数" >
+    <div class="text-danger alert alert-danger " ng-show="myUpdateScaleIncrementForm.scaleValue.$dirty && myUpdateScaleIncrementForm.scaleValue.$invalid">
+		<i class="glyphicon glyphicon-info-sign"></i>0-1之间两位小数
+	</div>
+  </div>
+  <input type="submit" class="btn btn-lg btn-danger" 
+  ng-disabled="myUpdateScaleIncrementForm.$invalid || formDisabled" value="提交"/>
+</form>
+<!-- 增加 end-->

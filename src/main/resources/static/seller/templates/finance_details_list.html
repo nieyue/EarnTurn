@@ -1,0 +1,80 @@
+<!-- 充值/提现详情 -->
+<!-- 充值/提现详情列表选择 -->
+<div style="margin:10px;" >
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">
+<span ng-if="type==0">提现</span><span ng-if="type==1">充值</span>详情列表
+</label>
+</div>
+<div style="margin:10px;">
+	<button class="btn btn-danger" ng-disabled="type==0" ng-click="changeFinanceDetailsType(0)">提现</button>
+	<button class="btn btn-info" ng-disabled="type==1" ng-click="changeFinanceDetailsType(1)">充值</button>
+</div>
+<!-- 充值/提现详情列表选择end -->
+<!-- 下载列表选择 -->
+<div style="margin:10px;">
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">
+下载excel:
+</label>
+	<a class="btn btn-danger"  ng-click="financeDetailsLoad('all')"><i class="glyphicon glyphicon-save-file"></i>全部下载</a>
+	<a class="btn btn-info"  ng-click="financeDetailsLoad(currentPage)"><i class="glyphicon glyphicon-save-file"></i>当前页下载</a>
+</div>
+<!-- 下载列表选择end -->
+<!-- 充值/提现详情列表 -->
+<div ng-if="!financeDetailsList ||financeDetailsList.list.length<=0" class="text-center alert alert-warning" style="width:800px;">
+       没有记录！
+   </div>
+		<div style="width:100%" id="loadAnimationBody" ng-if="financeDetailsList.list.length>0">
+			<table class="table table-bordered" style="width:100%">
+			<tr>
+			  <th>序号</th>
+			  <th>类型</th>
+			  <th>金额</th>
+			  <th>状态</th>
+			  <th>提交时间</th>
+			  <th>提交人信息</th>
+			</tr>
+			<tr ng-repeat="financeDetails in financeDetailsList.list" >
+			  <td >
+			  <span ng-bind="(currentPage-1)*pageNumber+$index+1"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="financeDetails.type==0?'提现':financeDetails.type==1?'充值':'错误'"></span>
+			  </td>
+			  <td >
+			    ￥:<span class="text-danger" ng-bind="financeDetails.money||0 | number:2"></span>
+			  </td>
+			  <td >
+			  <span class="text-info" ng-bind="financeDetails.status"></span>
+			  <button class="btn btn-success" ng-if="financeDetails.status=='审核中'" ng-click="financeDetailsStatus(financeDetails,'微信支付')">微信支付通过</button>
+			  <button class="btn btn-primary" ng-if="financeDetails.status=='审核中'" ng-click="financeDetailsStatus(financeDetails,'支付宝支付')">支付宝支付通过</button>
+			  <button class="btn btn-danger" ng-if="financeDetails.status=='审核中'" ng-click="financeDetailsStatus(financeDetails,'审核未通过')">审核未通过</button>
+			  </td>
+			  <td ng-bind="financeDetails.updateDate"></td>
+			  <td>
+			  <button class=" btn btn-warning" ng-click="financeDetailsAcount(financeDetails)">提交人信息</button>
+			  </td>
+			</tr>
+			</table>
+		</div>
+<!-- 充值/提现详情列表end -->
+	<!-- 页面列表end -->
+<!-- 加载更多end -->
+   <div >
+    <ul class="pagination " ng-if="financeDetailsList.list.length>0">
+    <li><a ng-click="toPage('首页')" >首页</a></li>
+    <li class="previous" ><a ng-click="toPage('previous')" >&larr;</a></li>
+
+    <li ng-repeat="currentPageNumber in showPageNumberArray"><a ng-click="toPage(currentPageNumber)" ng-class="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a ng-click="toPage('next')" >&rarr;</a></li>
+    <li><a ng-click="toPage('尾页')" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    <li>
+    <select style="width:100px;height:34px;" ng-model="currentPage" ng-change="toPage(currentPage)"   ng-options="currentPage as currentPage for currentPage in showAllPageNumberArray"> 
+    </select>
+    </li>
+    </ul>
+   </div>
+<!--  加载更多end -->
+	<!-- 充值/提现详情 end -->

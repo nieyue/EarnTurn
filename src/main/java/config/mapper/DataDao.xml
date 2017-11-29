@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.nieyue.dao.DataDao">
+<!-- 添加数据 -->
+<insert id="addData" parameterType="Data" keyProperty="dataId" flushCache="true"  >  
+   INSERT IGNORE INTO
+   		  data_tb 
+   		 (pvs,uvs,ips,create_date,article_id,acount_id)
+   VALUES
+    	 (#{pvs},#{uvs},#{ips},#{createDate},#{articleId},#{acountId})  
+</insert>  
+<!-- 更新数据 -->
+<update id="updateData" parameterType="Data" >  
+    UPDATE 
+    	data_tb 
+    SET 
+    	pvs=#{pvs},
+    	uvs=#{uvs},
+    	ips=#{ips},
+    	create_date=#{createDate},
+    	article_id=#{articleId},
+    	acount_id=#{acountId}
+    WHERE
+    	 data_id=#{dataId} 
+</update> 
+<!-- 存储或更新数据 -->
+<!-- <insert id="saveOrUpdateData" >  
+    INSERT IGNORE INTO
+   		  data_tb 
+   		 (
+   		 data_id,
+   		 pvs,
+   		 uvs,
+   		 ips,
+   		 create_date,
+   		 article_id,
+   		 acount_id
+   		 )
+   VALUES
+    	 (
+    	 #{Data.dataId},
+    	 1,
+    	 1,
+    	 1,
+    	 DATE(#{Data.createDate}),
+    	  CURDATE(),
+    	 #{Data.articleId},
+    	 #{Data.acountId}
+    	 )
+     ON DUPLICATE KEY UPDATE
+    	pvs=pvs+1,
+    	uvs=uvs+#{uv},
+    	ips=#{ip}  
+</insert>  -->
+<insert id="saveOrUpdateData" >  
+  <selectKey keyProperty="count" resultType="int" order="BEFORE">  
+    select count(data_id) from data_tb 
+    where 
+    article_id = #{Data.articleId}
+    AND   
+    acount_id = #{Data.acountId}
+    AND   
+    create_date = CURDATE()
+  </selectKey>  
+  <if test="count > 0">  
+    update data_tb   
+    set pvs=pvs+1,
+    	uvs=uvs+#{uv},
+    	ips=#{ip}    
+    where
+     article_id = #{Data.articleId}
+    AND   
+    acount_id = #{Data.acountId}
+    AND   
+    create_date = CURDATE() 
+  </if>  
+  <if test="count==0">  
+     INSERT IGNORE INTO
+   		  data_tb 
+   		 (
+   		 data_id,
+   		 pvs,
+   		 uvs,
+   		 ips,
+   		 create_date,
+   		 article_id,
+   		 acount_id
+   		 )
+   VALUES
+    	 (
+    	 #{Data.dataId},
+    	 1,
+    	 1,
+    	 #{ip},
+    	<!--  DATE(#{Data.createDate}), -->
+    	  CURDATE(),
+    	 #{Data.articleId},
+    	 #{Data.acountId}
+    	 )
+  </if>  
+</insert> 
+<!-- 删除数据-->
+<delete id="delData"  parameterType="Integer" >  
+    DELETE FROM
+    	 data_tb 
+    	 WHERE data_id=#{dataId}
+</delete>  
+<!-- 加载数据-->
+<select id="loadData" parameterType="Integer" resultType="Data" >
+SELECT 
+		data_id,
+	 	pvs,
+	 	uvs,
+	 	ips,
+    	create_date,
+    	article_id,
+    	acount_id
+FROM data_tb 
+<where>
+<if test="dataId!=null">
+AND data_id=#{dataId}
+</if>
+<if test="createDate!=null">
+AND DATE(create_date)=DATE(#{createDate})
+</if>
+<if test="articleId!=null">
+AND article_id=#{articleId}
+</if>
+<if test="acountId!=null">
+AND acount_id=#{acountId}
+</if>
+</where>
+</select>
+
+<!-- 分页查询数据-->
+<select id="browsePagingData" resultType="Data">  
+    SELECT
+	    data_id,
+	 	pvs,
+	 	uvs,
+	 	ips,
+    	create_date,
+    	article_id,
+    	acount_id
+	FROM data_tb
+	<where>
+	<if test="createDate!=null">
+	AND DATE(create_date)=DATE(#{createDate})
+	</if>
+	<if test="articleId!=null">
+	AND  article_id=#{articleId}
+	</if>
+	<if test="acountId!=null">
+	AND acount_id=#{acountId}
+	</if>
+	AND ${orderName} 
+	<if test="orderWay=='asc'">
+	<![CDATA[>=]]> 
+	</if>
+	<if test="orderWay=='desc'">
+	  <![CDATA[<= ]]>
+	</if>
+	(SELECT ${orderName} FROM data_tb 
+	<where>
+	<if test="createDate!=null">
+	AND DATE(create_date)=DATE(#{createDate})
+	</if>
+	<if test="articleId!=null">
+	AND  article_id=#{articleId}
+	</if>
+	<if test="acountId!=null">
+	AND acount_id=#{acountId}
+	</if>
+	</where>
+		ORDER BY 
+			${orderName}  ${orderWay}
+		LIMIT #{pageNum}, 1
+		) 
+	</where>
+	ORDER BY
+		${orderName}  ${orderWay}
+	LIMIT
+		#{pageSize}
+</select> 
+
+<!-- 统计记录条数 -->
+<select id="countAll"  resultType="int">  
+	SELECT
+	 	count(data_id)
+	FROM data_tb
+	<where>
+		<if test="createDate!=null">
+		AND DATE(create_date)=DATE(#{createDate})
+		</if>
+		<if test="articleId!=null">
+		AND  article_id=#{articleId}
+		</if>
+		<if test="acountId!=null">
+		AND acount_id=#{acountId}
+		</if>
+	</where>
+</select>   
+   
+ 
+</mapper>

@@ -1,0 +1,26 @@
+<div style="margin:10px;">
+<button class="btn btn-primary" ui-sref="main.noticeList">返回公告列表</button>
+</div>
+ <label  class="text-danger" style="font-size:30px;color:#ccc;">修改公告</label>
+<br/>
+<!-- 修改 -->
+	<form novalidate name="myUpdateNoticeForm" ng-submit="updateNoticeForm()">
+    <label  class="text-danger">※标题</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="notice.title" name="title" required ng-minlength="2" ng-maxlength="32" placeholder="2-32位">
+    <div class="text-danger alert alert-danger " ng-show="myUpdateNoticeForm.title.$dirty && myUpdateNoticeForm.title.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确公告标题
+				    </div>
+  </div>
+    <label  class="text-danger">※内容</label>
+  <div class=" comment-input-margin">
+    <textarea type="text" style="min-width:500px;min-height:300px;" class=" comment-input" ng-model="notice.content" name="content" required ng-minlength="2" ng-maxlength="255" placeholder="2-255位">
+    </textarea>
+<div class="text-danger alert alert-danger " ng-show="myUpdateNoticeForm.content.$dirty && myUpdateNoticeForm.content.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确公告内容
+				    </div>
+  </div>
+  <input type="submit" class="btn btn-lg btn-danger" 
+  ng-disabled="myUpdateNoticeForm.$invalid || formDisabled" value="提交"/>
+</form>
+<!-- 修改end-->

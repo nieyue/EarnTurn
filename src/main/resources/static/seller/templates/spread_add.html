@@ -1,0 +1,56 @@
+    <label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">添加推广</label>
+<br/>
+<!-- 增加 -->
+	<form novalidate name="myAddSpreadForm" ng-submit="addSpreadForm()">
+    <label  class="text-danger">※推广名</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="spread.name" name="name" required ng-minlength="2" ng-maxlength="16" placeholder="2-16位">
+    <div class="text-danger alert alert-danger " ng-show="myAddSpreadForm.name.$dirty && myAddSpreadForm.name.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确推广名
+				    </div>
+  </div>
+  <label  class="text-danger" >※推广平台</label>
+  <div class=" comment-input-margin" >
+  <select style="width:180px;height:50px;" ng-model="spread.platform" name="platform"
+   ng-init="spread.platform=0"  ng-options="model==0?'Android':model==1?'IOS':'' for model in models;models=[0,1]">
+  </select>
+  </div>
+    <label  class="text-danger">※推广方式</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="spread.method" name="method" required ng-minlength="2" ng-maxlength="16" placeholder="2-16位">
+    <div class="text-danger alert alert-danger " ng-show="myAddSpreadForm.method.$dirty && myAddSpreadForm.method.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入推广方式
+				    </div>
+  </div>
+    <label  class="text-danger">推广链接</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="spread.link" name="link" ng-pattern="/((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?)/" placeholder="http://或https://">
+    <div class="text-danger alert alert-danger " ng-show="myAddSpreadForm.link.$dirty && myAddSpreadForm.link.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>链接地址错误
+				    </div>
+  </div>
+  <label  class="text-danger" >※计费方式</label>
+  <div class=" comment-input-margin" >
+  <select style="width:180px;height:50px;" ng-model="spread.model" name="model" ng-init="spread.model=0"  ng-options="m==0?'注册':m==1?'下载':'' for m in models;models=[0,1]">
+  </select>
+  </div>
+  <label class="text-danger" >※单价</label>
+  <div class="comment-input-margin " >
+    <input type="text" class="comment-input" required name="unitPrice"
+     ng-model="spread.unitPrice" ng-pattern="/(^[+]?[1-9]\d*(\.\d{1,2})?$)|(^[+]?[0]{1}(\.\d{1,2})?$)/"  placeholder="两位小数" >
+    <div class="text-danger alert alert-danger " ng-show="myAddSpreadForm.unitPrice.$dirty && myAddSpreadForm.unitPrice.$invalid">
+		<i class="glyphicon glyphicon-info-sign"></i>两位小数
+	</div>
+  </div>
+   <label class="text-danger" >※总价</label>
+  <div class="comment-input-margin ">
+    <input type="text" class="comment-input" required name="totalPrice"
+     ng-model="spread.totalPrice" ng-pattern="/(^[+]?[1-9]\d*(\.\d{1,2})?$)|(^[+]?[0]{1}(\.\d{1,2})?$)/"  placeholder="两位小数" >
+    <div class="text-danger alert alert-danger " ng-show="myAddSpreadForm.totalPrice.$dirty && myAddSpreadForm.totalPrice.$invalid">
+		<i class="glyphicon glyphicon-info-sign"></i>两位小数
+	</div>
+  </div>
+  <input type="submit" class="btn btn-lg btn-danger" 
+  ng-disabled=" myAddSpreadForm.$invalid || formDisabled " value="提交"/>
+</form>
+<!-- 增加 end-->

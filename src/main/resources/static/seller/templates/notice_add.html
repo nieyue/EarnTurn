@@ -1,0 +1,23 @@
+    <label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">添加公告</label>
+<br/>
+<!-- 增加 -->
+	<form novalidate name="myAddNoticeForm" ng-submit="addNoticeForm()">
+    <label  class="text-danger">※标题</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" ng-model="notice.title" name="title" required ng-minlength="2" ng-maxlength="32" placeholder="2-32位">
+    <div class="text-danger alert alert-danger " ng-show="myAddNoticeForm.title.$dirty && myAddNoticeForm.title.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确公告标题
+				    </div>
+  </div>
+    <label  class="text-danger">※内容</label>
+  <div class=" comment-input-margin">
+    <textarea type="text" style="width:500px;min-height:300px;resize: vertical;" class=" comment-input" ng-model="notice.content" name="content" required ng-minlength="2" ng-maxlength="255" placeholder="2-255位">
+    </textarea>
+<div class="text-danger alert alert-danger " ng-show="myAddNoticeForm.content.$dirty && myAddNoticeForm.content.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确公告内容
+				    </div>
+  </div>
+  <input type="submit" class="btn btn-lg btn-danger" 
+  ng-disabled=" myAddNoticeForm.$invalid || formDisabled " value="提交"/>
+</form>
+<!-- 增加 end-->

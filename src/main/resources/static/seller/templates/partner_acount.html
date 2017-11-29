@@ -1,0 +1,104 @@
+<div style="margin:10px;">
+<button class="btn btn-primary" ui-sref="main.acountList">返回账户列表</button>
+</div>
+<!-- 合伙人列表选择 -->
+<div style="margin:10px;">
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">合伙人列表</label>
+</div>
+<!-- 合伙人列表选择end -->
+<!--合伙人列表 -->
+		<div  class="tableWrap">
+			<table class="table table-bordered">
+			<tr>
+			  <th>序号</th>
+			  <th>渠道ID</th>
+			  <th>昵称</th>
+			  <th>图像</th>
+			  <th>状态</th>
+			  <th>合伙人</th>
+			  <th>性别</th>
+			  <th>真实姓名</th>
+			  <th>电话</th>
+			  <th>email</th>
+			  <th>身份证</th>
+			  <th>QQ</th>
+			  <th>微信号</th>
+			  <th>微博号</th>
+			  <th>支付宝账号</th>
+			  <th>国家</th>
+			  <th>省</th>
+			  <th>城市</th>
+			  <th>openid</th>
+			  <th>uuid</th>
+			  <th>师傅</th>
+			  <th>角色</th>
+			  <th>创建时间</th>
+			  <th>登陆时间</th>
+			</tr>
+			<tr  ng-repeat="acount in acountList.list"ng-style="{color:acount.status==0?'green':acount.status==1?'red':acount.status==2?'#989804':'black'}" >
+			  <td >
+			  <span ng-bind="(currentPage-1)*pageNumber+$index+1"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="(acount.spreadId==0||acount.spreadId==null)?'自然量':acount.spreadId">自然量</span>
+			  </td>
+			  <td >
+			  <span ng-bind="acount.nickname"></span>
+			  </td>
+			  <td >
+			  <img alt="" style="width:30px;height:30px;border-radius:30px;" ng-if="acount.icon" src="{{acount.icon}}">
+ 				<div ng-if="!acount.icon" style="width:30px;height:30px;background-color:#ccc;color:white;border-radius:30px;line-height:30px;font-size:1.5rem;text-align:center;" class="glyphicon glyphicon-user" > </div>
+			  </td>
+			  <td >
+			  <span ng-bind="acount.status==0?'正常':acount.status==1?'锁定':acount.status==2?'异常':''"></span>
+			  </td>
+			   <td>
+			  收益比例:￥:<span class="text-danger" ng-bind="acount.scale||0 | number:2"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="acount.sex==1?'男性':acount.sex==2?'女性':'其他'"></span>
+			  </td>
+			  <td ng-bind="acount.realname"></td>
+			  <td ng-bind="acount.phone"></td>
+			  <td ng-bind="acount.email"></td>
+			  <td ng-bind="acount.identityCards"></td>
+			  <td ng-bind="acount.qq"></td>
+			  <td ng-bind="acount.wechat"></td>
+			  <td ng-bind="acount.microblog"></td>
+			  <td ng-bind="acount.alipay"></td>
+			  <td ng-bind="acount.country"></td>
+			  <td ng-bind="acount.province"></td>
+			  <td ng-bind="acount.city"></td>
+			  <td ng-bind="acount.openid"></td>
+			  <td ng-bind="acount.uuid"></td>
+			  <td ng-bind="acount.masterId==null?'没有':'有'"></td>
+			  <td >
+			  <span ng-repeat="role in roleList" ng-if="role.roleId==acount.roleId" ng-bind="role.name">
+			  </span>
+			  </td>
+			  <td ng-bind="acount.createDate"></td>
+			  <td ng-bind="acount.loginDate"></td>
+			</tr>
+			</table>
+		</div>
+<!-- 合伙人列表end -->
+	<!-- 页面列表end -->
+<!-- 加载更多 -->
+   <div >
+    <ul class="pagination " >
+    <li><a ng-click="toPage('首页',acountId)" >首页</a></li>
+    <li class="previous" ><a ng-click="toPage('previous',acountId)" >&larr;</a></li>
+
+    <li ng-repeat="currentPageNumber in showPageNumberArray"><a ng-click="toPage(currentPageNumber,acountId)" ng-class="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a ng-click="toPage('next',acountId)" >&rarr;</a></li>
+    <li><a ng-click="toPage('尾页',acountId)" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>合伙人总数：{{totalNumber}}</span></li>
+    <li>
+    <select style="width:100px;height:34px;" ng-model="currentPage" ng-change="toPage(currentPage,acountId)"   ng-options="currentPage as currentPage for currentPage in showAllPageNumberArray"> 
+    </select>
+    </li>
+    </ul>
+   </div>
+<!--  加载更多end -->

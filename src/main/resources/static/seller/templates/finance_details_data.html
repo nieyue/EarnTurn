@@ -1,0 +1,62 @@
+<!-- 充值/提现数据列表选择 -->
+<div style="margin:10px;" >
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">
+<span ng-if="type==0">提现</span>
+<span ng-if="type==1">充值</span>
+详情数据
+</label>
+</div>
+<div style="margin:10px;">
+	<button class="btn btn-danger" ng-disabled="type==0" ng-click="changeFinanceDetailsType(0)">提现</button>
+	<button class="btn btn-info" ng-disabled="type==1" ng-click="changeFinanceDetailsType(1)">充值</button>
+</div>
+<!-- 充值/提现详情列表选择end -->
+<!-- 提现数据列表 -->
+ <div style="width:100%" ng-if="type==0">
+			<table class="table table-bordered" style="width:100%;background-color: #fff;">
+			<tr>
+			  <th>已支出（支付宝、微信支付完成）</th>
+			  <th>支付宝支付完成</th>
+			  <th>微信支付完成</th>
+			  <th>审核中</th>
+			  <th>审核未通过</th>
+			</tr>
+			<tr >
+			  <td class="text-danger">
+			   ￥<span ng-bind="financeDetailsData.totalExpend"></span>
+			  </td >
+			  <td class="text-danger">
+			   ￥<span ng-bind="financeDetailsData.alipayExpend"></span>
+			  </td>
+			  <td class="text-danger">
+			  ￥ <span ng-bind="financeDetailsData.wechatExpend"></span>
+			  </td>
+			  <td class="text-primary">
+			  ￥<span ng-bind="financeDetailsData.waitExpend"></span>
+			  </td>
+			 <td class="text-warning">
+			  ￥<span ng-bind="financeDetailsData.noExpend"></span>
+			  </td> 
+			</table>
+		</div>
+<!-- 提现数据列表end -->
+
+<!-- 加载更多 -->
+  <!--  <div >
+    <ul class="pagination " >
+    <li><a ng-click="toPage('首页',acountId,type,isRecommend,fixedRecommend)" >首页</a></li>
+    <li class="previous" ><a ng-click="toPage('previous',acountId,type,isRecommend,fixedRecommend)" >&larr;</a></li>
+
+    <li ng-repeat="currentPageNumber in showPageNumberArray"><a ng-click="toPage(currentPageNumber,acountId,type,isRecommend,fixedRecommend)" ng-class="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a ng-click="toPage('next',acountId,type,isRecommend,fixedRecommend)" >&rarr;</a></li>
+    <li><a ng-click="toPage('尾页',acountId,type,isRecommend,fixedRecommend)" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    <li>
+    <select style="width:100px;height:34px;" ng-model="currentPage" ng-change="toPage(currentPage,acountId,type,isRecommend,fixedRecommend)"   ng-options="currentPage as currentPage for currentPage in showAllPageNumberArray"> 
+    </select>
+    </li>
+    </ul>
+   </div> -->
+<!--  加载更多end -->

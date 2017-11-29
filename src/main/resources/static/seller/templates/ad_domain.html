@@ -1,0 +1,16 @@
+    <label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">添加跨域广告域名</label>
+<br/>
+<!-- 增加 -->
+	<form novalidate name="myUpdateAdDomainForm" ng-submit="updateAdDomainForm()">
+ <label class="text-danger" ng-if="sessionAcount.roleId==1000">※跨域广告域名（必填）</label>
+  <div class="comment-input-margin " ng-if="sessionAcount.roleId==1000">
+    <input type="text" class="comment-input" required name="adDomain"
+     ng-model="domain.adDomain" ng-pattern="/(^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$)/"  placeholder="如：www.baidu.com" >
+    <div class="text-danger alert alert-danger " ng-show="myUpdateAdDomainForm.adDomain.$dirty && myUpdateAdDomainForm.adDomain.$invalid">
+		<i class="glyphicon glyphicon-info-sign"></i>域名错误
+	</div>
+  </div>
+  <input type="submit" class="btn btn-lg btn-danger" 
+  ng-disabled="myUpdateAdDomainForm.$invalid || formDisabled" value="提交"/>
+</form>
+<!-- 增加 end-->

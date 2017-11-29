@@ -1,0 +1,237 @@
+<!-- 左边导航 -->
+	 <div class="panel-group"  id="accordion" role="tablist" aria-multiselectable="true">
+   <!-- 首页end -->
+   <div class="panel " >
+    <div class="panel-heading" >
+      <h4 class="panel-title">
+        <a role="button" class="nav-active" ui-sref="main.index" href="#collapseIndex">
+          	首页
+        </a>
+      </h4>
+    </div>
+  </div>
+  <!-- 首页end -->
+ <!-- 所有文章 -->
+   <div class="panel " ng-if="sessionAcount.roleId==1000">
+    <div class="panel-heading" role="tab" id="headingAllArticle">
+      <h4 class="panel-title">
+        <a  role="button" data-toggle="collapse" class="toCaret" data-parent="#accordion" href="#collapseAllArticle" aria-expanded="false" aria-controls="collapseAllArticle">
+         全部文章管理
+        </a>
+          <span class="caret pull-right"></span>
+      </h4>
+    </div>
+    <div id="collapseAllArticle" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAllArticle">
+      <div class="panel-body">
+        <div><a ui-sref="main.articleData({acountId:NaN})">文章数据</a></div>
+		<div><a ui-sref="main.articleList({acountId:NaN})">文章列表</a></div>
+		<div><a ui-sref="main.articleAdd({acountId:NaN})">增加文章</a></div>
+      </div>
+    </div>
+  </div>
+  <!-- 所有文章end -->
+  <!-- 自身文章-->
+  <div class="panel " >
+    <div class="panel-heading" role="tab" id="headingSelfArticle">
+      <h4 class="panel-title">
+        <a  role="button" data-toggle="collapse" class="toCaret" data-parent="#accordion" href="#collapseSelfArticle" aria-expanded="false" aria-controls="collapseSelfArticle">
+         自身文章管理
+        </a>
+          <span class="caret pull-right"></span>
+      </h4>
+    </div>
+    <div id="collapseSelfArticle" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSelfArticle">
+      <div class="panel-body">
+        <div><a ui-sref="main.articleData({acountId:sessionAcount.acountId})">文章数据</a></div>
+		<div><a ui-sref="main.articleList({acountId:sessionAcount.acountId})">文章列表</a></div>
+		<div><a ui-sref="main.articleAdd({acountId:sessionAcount.acountId})">增加新闻</a></div>
+      </div>
+    </div>
+  </div>
+ <!-- 自身文章end -->
+ <!-- 公告导航 -->
+ <div class="panel " ng-if="sessionAcount.roleId==1000">
+    <div class="panel-heading" role="tab" id="headingNotice">
+      <h4 class="panel-title">
+        <a  role="button" data-toggle="collapse" class="toCaret" data-parent="#accordion" href="#collapseNotice" aria-expanded="false" aria-controls="collapseNotice">
+         公告管理
+        </a>
+          <span class="caret pull-right"></span>
+      </h4>
+    </div>
+    <div id="collapseNotice" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingNotice">
+      <div class="panel-body">
+		<div><a ui-sref="main.noticeList">公告列表</a></div>
+		<div><a ui-sref="main.noticeAdd">增加公告</a></div>
+      </div>
+    </div>
+  </div>
+  <!-- 公告导航 end -->
+  <!-- 学堂导航 -->
+ <div class="panel " ng-if="sessionAcount.roleId==1000">
+    <div class="panel-heading" role="tab" id="headingSchool">
+      <h4 class="panel-title">
+        <a  role="button" data-toggle="collapse" class="toCaret" data-parent="#accordion" href="#collapseSchool" aria-expanded="false" aria-controls="collapseSchool">
+         学堂管理
+        </a>
+          <span class="caret pull-right"></span>
+      </h4>
+    </div>
+    <div id="collapseSchool" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSchool">
+      <div class="panel-body">
+		<div><a ui-sref="main.schoolList">学堂列表</a></div>
+		<div><a ui-sref="main.schoolAdd">增加学堂</a></div>
+      </div>
+    </div>
+  </div>
+<!-- 学堂导航 end -->
+  <!-- 意见反馈导航 -->
+ <div class="panel " ng-if="sessionAcount.roleId==1000">
+    <div class="panel-heading" role="tab" id="headingFeedback">
+      <h4 class="panel-title">
+        <a  role="button" data-toggle="collapse" class="toCaret" data-parent="#accordion" href="#collapseFeedback" aria-expanded="false" aria-controls="collapseFeedback">
+         意见反馈管理
+        </a>
+          <span class="caret pull-right"></span>
+      </h4>
+    </div>
+    <div id="collapseFeedback" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFeedback">
+      <div class="panel-body">
+		<div><a ui-sref="main.feedbackList">意见反馈列表</a></div>
+      </div>
+    </div>
+  </div>
+<!-- 意见反馈导航 end -->
+  <!-- 账户导航 -->
+ <div class="panel " ng-if="sessionAcount.roleId==1000">
+    <div class="panel-heading" role="tab" id="headingAcount">
+      <h4 class="panel-title">
+        <a  role="button" data-toggle="collapse" class="toCaret" data-parent="#accordion" href="#collapseAcount" aria-expanded="false" aria-controls="collapseAcount">
+         账户管理
+        </a>
+          <span class="caret pull-right"></span>
+      </h4>
+    </div>
+    <div id="collapseAcount" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAcount">
+      <div class="panel-body">
+        <!-- <div><a ui-sref="main.acountData">账户数据</a></div>
+        <div><a ui-sref="main.financeData">财务数据</a></div> -->
+		<div><a ui-sref="main.acountList">账户列表</a></div>
+		<div><a ui-sref="main.acountAdd">增加账户</a></div>
+      </div>
+    </div>
+  </div>
+<!-- 账户导航 end -->
+ <!-- 充值/提现-->
+ <div class="panel " ng-if="sessionAcount.roleId==1000">
+    <div class="panel-heading" role="tab" id="headingFinanceDetails">
+      <h4 class="panel-title">
+        <a  role="button" data-toggle="collapse" class="toCaret" data-parent="#accordion" href="#collapseFinanceDetails" aria-expanded="false" aria-controls="collapseFinanceDetails">
+         充值/提现管理
+        </a>
+          <span class="caret pull-right"></span>
+      </h4>
+    </div>
+    <div id="collapseFinanceDetails" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFinanceDetails">
+      <div class="panel-body">
+        <div><a ui-sref="main.financeDetailsData">充值/提现数据</a></div>
+		<div><a ui-sref="main.financeDetailsList">充值/提现列表</a></div>
+      </div>
+    </div>
+  </div>
+<!-- 充值/提现 end -->
+ <!-- 全局合伙人收益比例增量-->
+ <div class="panel " ng-if="sessionAcount.roleId==1000">
+    <div class="panel-heading" role="tab" id="headingScaleIncrement">
+      <h4 class="panel-title">
+        <a  role="button" data-toggle="collapse" class="toCaret" data-parent="#accordion" href="#collapseScaleIncrement" aria-expanded="false" aria-controls="collapseScaleIncrement">
+        合伙人收益比例增量
+        </a>
+          <span class="caret pull-right"></span>
+      </h4>
+    </div>
+    <div id="collapseScaleIncrement" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingScaleIncrement">
+      <div class="panel-body">
+		<div><a ui-sref="main.scaleIncrement">设置合伙人收益比例增量</a></div>
+      </div>
+    </div>
+  </div>
+<!-- 全局合伙人收益比例增量end -->
+ <!-- App版本控制-->
+ <div class="panel " ng-if="sessionAcount.roleId==1000">
+    <div class="panel-heading" role="tab" id="headingAppVersion">
+      <h4 class="panel-title">
+        <a  role="button" data-toggle="collapse" class="toCaret" data-parent="#accordion" href="#collapseAppVersion" aria-expanded="false" aria-controls="collapseAppVersion">
+        App版本控制
+        </a>
+          <span class="caret pull-right"></span>
+      </h4>
+    </div>
+    <div id="collapseAppVersion" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAppVersion">
+      <div class="panel-body">
+		<div><a ui-sref="main.appVersionList">App版本列表</a></div>
+		<div><a ui-sref="main.appVersionAdd">增加App版本</a></div>
+      </div>
+    </div>
+  </div>
+<!-- App版本控制end -->
+ <!-- 域名管理-->
+ <div class="panel " ng-if="sessionAcount.roleId==1000">
+    <div class="panel-heading" role="tab" id="headingDomain">
+      <h4 class="panel-title">
+        <a  role="button" data-toggle="collapse" class="toCaret" data-parent="#accordion" href="#collapseDomain" aria-expanded="false" aria-controls="collapseDomain">
+        域名管理
+        </a>
+          <span class="caret pull-right"></span>
+      </h4>
+    </div>
+    <div id="collapseDomain" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingDomain">
+      <div class="panel-body">
+		<div><a ui-sref="main.shareDomain">设置分享合伙人域名</a></div>
+		<div><a ui-sref="main.gmwDomain">设置光明网文章域名</a></div>
+		<div><a ui-sref="main.ssDomain">设置三俗文章域名</a></div>
+		<div><a ui-sref="main.adDomain">设置跨域广告域名</a></div>
+      </div>
+    </div>
+  </div>
+<!-- 域名管理end -->
+ <!-- JS广告管理-->
+ <div class="panel " ng-if="sessionAcount.roleId==1000">
+    <div class="panel-heading" role="tab" id="headingJsAd">
+      <h4 class="panel-title">
+        <a  role="button" data-toggle="collapse" class="toCaret" data-parent="#accordion" href="#collapseJsAd" aria-expanded="false" aria-controls="collapseJsAd">
+        JS广告管理
+        </a>
+          <span class="caret pull-right"></span>
+      </h4>
+    </div>
+    <div id="collapseJsAd" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingJsAd">
+      <div class="panel-body">
+		<div><a ui-sref="main.jsAd">设置JS广告</a></div>
+      </div>
+    </div>
+  </div>
+<!-- JS广告管理end -->
+ <!-- 推广管理-->
+ <div class="panel " ng-if="sessionAcount.roleId==1000">
+    <div class="panel-heading" role="tab" id="headingSpread">
+      <h4 class="panel-title">
+        <a  role="button" data-toggle="collapse" class="toCaret" data-parent="#accordion" href="#collapseSpread" aria-expanded="false" aria-controls="collapseSpread">
+        推广管理
+        </a>
+          <span class="caret pull-right"></span>
+      </h4>
+    </div>
+    <div id="collapseSpread" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSpread">
+      <div class="panel-body">
+		<div><a ui-sref="main.spreadList">推广管理列表</a></div>
+		<div><a ui-sref="main.spreadAdd">增加推广管理</a></div>
+      </div>
+    </div>
+  </div>
+<!-- 推广管理end -->
+
+
+  
+  </div>
+	<!-- end左边导航 -->

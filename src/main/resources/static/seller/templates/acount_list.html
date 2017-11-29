@@ -1,0 +1,158 @@
+<div style="margin:10px;">
+<button class="btn btn-primary "  ng-click="acountListByRole()">全部列表</button>
+<span ng-repeat="role in roleList">
+<button class="btn btn-info" ng-click="acountListByRole(role.roleId)">{{role.name}}</button>
+</span>
+</div>
+<!-- 账户列表选择 -->
+<div style="margin:10px;">
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">自定义查询（昵称/合伙人收益比例）</label>
+</div>
+<!-- 账户列表选择end -->
+<!-- 账户搜索选择 -->
+<form novalidate name="mySerachAcountForm" ng-submit="serachAcountForm()">
+  <span class=" comment-input-margin">
+ <label  class="text-danger">昵称</label>
+    <input type="text" style="width:auto;" class=" comment-input" ng-model="serach.nickname" name="nickname"  ng-minlength="1" ng-maxlength="16" placeholder="1-16位">
+  </span>
+  <span class=" comment-input-margin">
+ <label  class="text-danger">手机号</label>
+    <input type="text" style="width:auto;" class=" comment-input" ng-model="serach.phone" name="phone"   pattern="^1[0-9]{10}$" placeholder="输入正确手机号">
+  <span class="text-danger alert alert-danger " ng-show="mySerachAcountForm.phone.$dirty && mySerachAcountForm.phone.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>输入正确手机号
+	</span>
+  </span>
+  <span class=" comment-input-margin">
+ <label  class="text-danger">合伙人收益比例</label>
+    <input type="text"  style="width:auto;"class=" comment-input" ng-model="serach.minScale" ng-change="controllerScale()" name="minScale" required ng-pattern="/(^[0]$|^(0\.(0[0-9]{1}|[0-9]\d?)|1(\.0{1,2})?)$)/"  placeholder="0-1之间两位小数" >
+    <span class="text-danger alert alert-danger " ng-show="mySerachAcountForm.minScale.$dirty && mySerachAcountForm.minScale.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>0-1两位小数
+	</span>
+    <input type="text"  style="width:auto;" class=" comment-input" ng-model="serach.maxScale" ng-change="controllerScale()" name="maxScale" required ng-pattern="/(^[0]$|^(0\.(0[0-9]{1}|[0-9]\d?)|1(\.0{1,2})?)$)/"  placeholder="0-1之间两位小数" >
+    <span class="text-danger alert alert-danger " ng-show="mySerachAcountForm.maxScale.$dirty && mySerachAcountForm.maxScale.$invalid">
+				    	<i class="glyphicon glyphicon-info-sign"></i>0-1两位小数
+	</span>
+  </span>
+  
+   <input type="submit" class="btn btn-lg btn-danger" 
+  ng-disabled="mySerachAcountForm.$invalid" value="提交"/>
+</form>
+<!-- 账户搜索选择end -->
+<!-- 账户列表选择 -->
+<div style="margin:10px;">
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">账户列表</label>
+</div>
+<!-- 账户列表选择end -->
+<!-- 添加全局合伙人收益比例增量 -->
+<div style="margin:10px;">
+<label  class="text-danger nieyueText" style="font-size:30px;color:#ccc;">全局合伙人收益比例增量</label>
+<span class="text-danger text-lg" style="font-weight:bold;font-size:24px" ng-bind="scale.scaleValue"></span>
+</div>
+<!-- 添加全局合伙人收益比例增量end -->
+<!-- 账户列表 -->
+		<div  class="tableWrap">
+			<table class="table table-bordered">
+			<tr>
+			  <th>序号</th>
+			  <th>渠道ID</th>
+			  <th>昵称</th>
+			  <th>图像</th>
+			  <th>状态</th>
+			  <th>合伙人</th>
+			  <th>性别</th>
+			  <th>真实姓名</th>
+			  <th>电话</th>
+			  <th>email</th>
+			  <th>身份证</th>
+			  <th>QQ</th>
+			  <th>微信号</th>
+			  <th>微博号</th>
+			  <th>支付宝账号</th>
+			  <th>国家</th>
+			  <th>省</th>
+			  <th>城市</th>
+			  <th>openid</th>
+			  <th>uuid</th>
+			  <th>师傅</th>
+			  <th>角色</th>
+			  <th>创建时间</th>
+			  <th>登陆时间</th>
+			  <th >相关</th> 
+			  <th >操作</th> 
+			</tr>
+			<tr  ng-repeat="acount in acountList.list"ng-style="{color:acount.status==0?'green':acount.status==1?'red':acount.status==2?'#989804':'black'}" >
+			  <td >
+			  <span ng-bind="(currentPage-1)*pageNumber+$index+1"></span>
+			  </td>
+			  <td >
+			  <span ng-bind="(acount.spreadId==0||acount.spreadId==null)?'自然量':acount.spreadId">自然量</span>
+			  </td>
+			  <td >
+			  <span ng-bind="acount.nickname"></span>
+			  </td>
+			  <td >
+			  <img alt="" style="width:30px;height:30px;border-radius:30px;" ng-if="acount.icon" src="{{acount.icon}}">
+ 				<div ng-if="!acount.icon" style="width:30px;height:30px;background-color:#ccc;color:white;border-radius:30px;line-height:30px;font-size:1.5rem;text-align:center;" class="glyphicon glyphicon-user" > </div>
+			  </td>
+			  <td >
+			  <span ng-bind="acount.status==0?'正常':acount.status==1?'锁定':acount.status==2?'异常':''"></span>
+			  </td>
+			   <td>
+			  收益比例:￥:<span class="text-danger" ng-bind="acount.scale||0 | number:2"></span>
+			  <button class=" btn btn-success" ng-click="partnerByAcount(acount)">合伙人</button>
+			  </td>
+			  <td >
+			  <span ng-bind="acount.sex==1?'男性':acount.sex==2?'女性':'其他'"></span>
+			  </td>
+			  <td ng-bind="acount.realname"></td>
+			  <td ng-bind="acount.phone"></td>
+			  <td ng-bind="acount.email"></td>
+			  <td ng-bind="acount.identityCards"></td>
+			  <td ng-bind="acount.qq"></td>
+			  <td ng-bind="acount.wechat"></td>
+			  <td ng-bind="acount.microblog"></td>
+			  <td ng-bind="acount.alipay"></td>
+			  <td ng-bind="acount.country"></td>
+			  <td ng-bind="acount.province"></td>
+			  <td ng-bind="acount.city"></td>
+			  <td ng-bind="acount.openid"></td>
+			  <td ng-bind="acount.uuid"></td>
+			  <td ng-bind="acount.masterId==null?'没有':'有'"></td>
+			  <td >
+			  <span ng-repeat="role in roleList" ng-if="role.roleId==acount.roleId" ng-bind="role.name">
+			  </span>
+			  </td>
+			  <td ng-bind="acount.createDate"></td>
+			  <td ng-bind="acount.loginDate"></td>
+			  <td>
+			  <!-- <button class=" btn btn-success" ng-click="apprenticeByAcount(acount)">合伙人</button> -->
+			  <button class=" btn btn-success" ng-click="financeByAcount(acount)">财务</button>
+			  </td>
+			 <td >
+			  <button class=" btn btn-warning" ng-click="updateAcount(acount)">修改</button>
+			  <!-- <button class=" btn btn-danger" ng-click="delAcount(acount)">删除</button> -->
+			  </td>
+			</tr>
+			</table>
+		</div>
+<!-- 账户列表end -->
+	<!-- 页面列表end -->
+<!-- 加载更多 -->
+   <div >
+    <ul class="pagination " >
+    <li><a ng-click="toPage('首页',serach)" >首页</a></li>
+    <li class="previous" ><a ng-click="toPage('previous',serach)" >&larr;</a></li>
+
+    <li ng-repeat="currentPageNumber in showPageNumberArray"><a ng-click="toPage(currentPageNumber,serach)" ng-class="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a ng-click="toPage('next',serach)" >&rarr;</a></li>
+    <li><a ng-click="toPage('尾页',serach)" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    <li>
+    <select style="width:100px;height:34px;" ng-model="currentPage" ng-change="toPage(currentPage,serach)"   ng-options="currentPage as currentPage for currentPage in showAllPageNumberArray"> 
+    </select>
+    </li>
+    </ul>
+   </div>
+<!--  加载更多end -->

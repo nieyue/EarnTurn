@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.nieyue.dao.SchoolDao">
+<!-- 添加学堂-->
+<insert id="addSchool" parameterType="School" keyProperty="schoolId" flushCache="true"  >  
+   INSERT IGNORE INTO
+   		  school_tb 
+   		 (title,content,create_date)
+   VALUES
+    	 (#{title},#{content},#{createDate})  
+</insert>  
+<!-- 更新学堂-->
+<update id="updateSchool" parameterType="School" >  
+    UPDATE 
+    	school_tb 
+    SET 
+    	title=#{title},
+    	content=#{content},
+    	create_date=#{createDate}
+    WHERE
+    	 school_id=#{schoolId} 
+</update> 
+<!-- 删除角色-->
+<delete id="delSchool"  parameterType="Integer" >  
+    DELETE FROM
+    	 school_tb 
+    	 WHERE school_id=#{schoolId}
+</delete>  
+<!-- 加载角色-->
+<select id="loadSchool" parameterType="Integer" resultType="School" >
+SELECT 
+		school_id,
+	 	title,
+    	content,
+    	create_date
+FROM school_tb 
+WHERE school_id=#{schoolId}
+</select>
+
+<!-- 分页查询角色-->
+<select id="browsePagingSchool" resultType="School">  
+     SELECT
+	    school_id,
+	 	title,
+    	content,
+    	create_date
+	FROM school_tb
+	WHERE ${orderName} 
+	<if test="orderWay=='asc'">
+	<![CDATA[>=]]> 
+	</if>
+	<if test="orderWay=='desc'">
+	  <![CDATA[<= ]]>
+	</if>
+	(SELECT ${orderName} FROM school_tb 
+		ORDER BY 
+			${orderName}  ${orderWay}
+		LIMIT #{pageNum}, 1
+		) 
+	ORDER BY
+		${orderName}  ${orderWay}
+	LIMIT
+		#{pageSize}
+</select> 
+
+<!-- 统计记录条数 -->
+<select id="countAll"  resultType="int">  
+	SELECT
+	 	count(school_id)
+	FROM school_tb
+</select>   
+   
+ 
+</mapper>

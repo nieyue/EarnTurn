@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.nieyue.dao.AcountDao">
+<!-- 添加账户 -->
+<insert id="addAcount" parameterType="Acount" keyProperty="acountId" flushCache="true"  >  
+   INSERT IGNORE INTO
+   		  acount_tb 
+   		 (nickname,icon,scale,openid,uuid,sex,country,province,city,realname,phone,email,password,identity_cards,qq,wechat,microblog,alipay,create_date,login_date,status,spread_id,master_id,role_id)
+   VALUES
+    	 (#{nickname},#{icon},#{scale},#{openid},#{uuid},#{sex},#{country},#{province},#{city},#{realname},#{phone},#{email},#{password},#{identityCards},#{qq},#{wechat},#{microblog},#{alipay},#{createDate},#{loginDate},#{status},#{spreadId},#{masterId},#{roleId})  
+</insert>  
+<!-- 更新账户 -->
+<update id="updateAcount" parameterType="Acount" >  
+    UPDATE 
+    	acount_tb 
+    SET 
+    <if test="nickname!=null">
+    	nickname=#{nickname},
+    </if>
+    <if test="icon!=null">
+    	icon=#{icon},
+    	</if>
+    <if test="scale!=null">
+    	scale=#{scale},
+    	</if>
+    <if test="openid!=null">
+    	openid=#{openid},
+    	</if>
+    <if test="uuid!=null">
+    	uuid=#{uuid},
+    	</if>
+    <if test="sex!=null">
+    	sex=#{sex},
+    	</if>
+    <if test="country!=null">
+    	country=#{country},
+    	</if>
+    <if test="province!=null">
+    	province=#{province},
+    	</if>
+    <if test="city!=null">
+    	city=#{city},
+    	</if>
+    <if test="realname!=null">
+    	realname=#{realname},
+    	</if>
+    <if test="phone!=null">
+    	phone=#{phone},
+    	</if>
+    <if test="email!=null">
+    	email=#{email},
+    	</if>
+    <if test="password!=null">
+    	password=#{password},
+    	</if>
+    <if test="identityCards!=null">
+    	identity_cards=#{identityCards},
+    	</if>
+    <if test="qq!=null">
+    	qq=#{qq},
+    	</if>
+    <if test="wechat!=null">
+    	wechat=#{wechat},
+    	</if>
+    <if test="microblog!=null">
+    	microblog=#{microblog},
+    	</if>
+    <if test="alipay!=null">
+    	alipay=#{alipay},
+    	</if>
+    <if test="createDate!=null">
+    	create_date=#{createDate},
+    	</if>
+    <if test="loginDate!=null">
+    	login_date=#{loginDate},
+    	</if>
+    <if test="status!=null">
+    	status=#{status},
+    	</if>
+    <if test="spreadId!=null">
+    	spread_id=#{spreadId},
+    	</if>
+    <if test="masterId!=null">
+    	master_id=#{masterId},
+    	</if>
+    <if test="roleId!=null">
+    	role_id=#{roleId}
+    	</if>
+    WHERE
+    	 acount_id=#{acountId} 
+</update> 
+<!-- 删除账户-->
+<delete id="delAcount"  parameterType="Integer" >  
+    DELETE FROM
+    	 acount_tb 
+    	 WHERE acount_id=#{acountId}
+</delete>  
+<!-- 加载账户-->
+<select id="loadAcount" parameterType="Integer" resultType="Acount" >
+SELECT 
+		acount_id,
+	 	nickname,
+	 	icon,
+	 	scale,
+	 	openid,
+	 	uuid,
+	 	sex,
+	 	country,
+	 	province,
+	 	city,
+	 	realname,
+	 	phone,
+    	email,
+    	password,
+    	identity_cards,
+    	qq,
+    	wechat,
+    	microblog,
+    	alipay,
+    	create_date,
+    	login_date,
+    	status,
+    	spread_id,
+    	master_id,
+    	role_id
+FROM acount_tb 
+WHERE acount_id=#{acountId}
+</select>
+
+<!-- 账户分页浏览合伙人数目排行榜-->
+<select id="browsePagingAcountByMasterId" resultType="AcountDTO">  
+<!--     SELECT
+	    master_id acount_id,
+	    nickname,
+	    icon,
+	 	count(master_id) apprenticeNum
+	FROM acount_tb
+	<where>
+	<if test="masterId!=null">
+		AND  master_id=#{masterId}
+		</if>
+	</where>
+	GROUP BY master_id
+	ORDER BY
+		${orderName}  ${orderWay}
+	LIMIT
+		#{pageNum},#{pageSize} -->
+		
+		
+	<!--单人排行 -->
+	<if test="masterId!=null">
+SELECT
+	c.acount_id acount_id,
+	c.nickname nickname,
+	c.icon icon,
+	c.apprenticeOrderNum apprenticeOrderNum,
+	c.apprenticeNum  apprenticeNum
+from(
+SELECT
+	b.master_id acount_id,
+	(select nickname from acount_tb where acount_id=b.master_id ) nickname ,
+	(select icon from acount_tb where acount_id=b.master_id ) icon ,
+	(@apprenticeOrderNum:=@apprenticeOrderNum+1) as apprenticeOrderNum ,
+	b.apprenticeNum  apprenticeNum
+from ( SELECT
+	    master_id,
+	 	count(master_id) apprenticeNum
+	FROM acount_tb
+	GROUP BY master_id
+	ORDER BY
+		${orderName}  ${orderWay}
+) b,(select (@apprenticeOrderNum:=0)) apprenticeOrderNum
+) c
+WHERE c.acount_id=#{masterId}
+	</if>	
+<!-- 单人排行 -->
+	<!-- list -->
+	<if test="masterId==null">
+SELECT
+	b.master_id acount_id,
+	(select nickname from acount_tb where acount_id=b.master_id ) nickname ,
+	(select icon from acount_tb where acount_id=b.master_id ) icon ,
+	(@apprenticeOrderNum:=@apprenticeOrderNum+1) as apprenticeOrderNum ,
+	b.apprenticeNum  apprenticeNum
+from ( SELECT
+	    master_id,
+	 	count(master_id) apprenticeNum
+	FROM acount_tb
+	WHERE master_id!=''
+	GROUP BY master_id
+	ORDER BY
+		${orderName}  ${orderWay}
+	LIMIT
+		#{pageNum},#{pageSize}
+) b,(select (@apprenticeOrderNum:=0)) apprenticeOrderNum
+	</if>	
+<!-- list -->
+</select> 
+<!-- 分页查询账户-->
+<select id="browsePagingAcount" resultType="Acount">  
+    SELECT
+	    acount_id,
+	    nickname,
+	 	icon,
+	 	scale,
+	 	openid,
+	 	uuid,
+	 	sex,
+	 	country,
+	 	province,
+	 	city,
+	 	realname,
+	 	phone,
+    	email,
+    	password,
+    	identity_cards,
+    	qq,
+    	wechat,
+    	microblog,
+    	alipay,
+    	create_date,
+    	login_date,
+    	status,
+    	spread_id,
+    	master_id,
+    	role_id
+	FROM acount_tb
+	<where>
+	<if test="spreadId!=null">
+		AND  spread_id=#{spreadId}
+		</if>
+	<if test="masterId!=null">
+		AND  master_id=#{masterId}
+		</if>
+		<if test="roleId!=null">
+		AND  role_id=#{roleId}
+		</if>
+		<if test="status!=null">
+		AND  status=#{status}
+		</if>
+		<if test="createDate!=null">
+		AND  DATE(create_date)=DATE(#{createDate})
+		</if>
+		<if test="loginDate!=null">
+		AND  DATE(login_date)=DATE(#{loginDate})
+		</if>
+	<if test="phone!=null">
+		AND  phone like CONCAT('%','${phone}','%' )
+		</if>
+	<if test="nickname!=null">
+		AND  nickname like CONCAT('%','${nickname}','%' )
+		</if>
+	<if test="minScale!=null">
+		AND  scale<![CDATA[>=]]> #{minScale}
+		</if>
+	<if test=" maxScale!=null">
+		AND  scale<![CDATA[<=]]> #{maxScale}
+		</if>
+	AND ${orderName} 
+	<if test="orderWay=='asc'">
+	<![CDATA[>=]]> 
+	</if>
+	<if test="orderWay=='desc'">
+	  <![CDATA[<= ]]>
+	</if>
+	(SELECT ${orderName} FROM acount_tb 
+		 <where>
+		 <if test="spreadId!=null">
+		AND  spread_id=#{spreadId}
+		</if>
+		<if test="masterId!=null">
+		AND  master_id=#{masterId}
+		</if>
+		<if test="roleId!=null">
+		AND  role_id=#{roleId}
+		</if>
+		<if test="status!=null">
+		AND  status=#{status}
+		</if>
+		<if test="createDate!=null">
+		AND  DATE(create_date)=DATE(#{createDate})
+		</if>
+		<if test="loginDate!=null">
+		AND  DATE(login_date)=DATE(#{loginDate})
+		</if>
+		<if test="phone!=null">
+		AND  phone like CONCAT('%','${phone}','%' )
+		</if>
+		<if test="nickname!=null">
+		AND  nickname like CONCAT('%','${nickname}','%' )
+		</if>
+	<if test="minScale!=null">
+		AND  scale<![CDATA[>=]]> #{minScale}
+		</if>
+	<if test=" maxScale!=null">
+		AND  scale<![CDATA[<=]]> #{maxScale}
+		</if>
+		</where> 
+		ORDER BY 
+			${orderName}  ${orderWay}
+		LIMIT #{pageNum}, 1
+		) 
+	</where>
+	ORDER BY
+		${orderName}  ${orderWay}
+	LIMIT
+		#{pageSize}
+</select> 
+<!-- 渠道分页查询账户-->
+<select id="browsePagingAcountBySpread" resultType="SpreadAcountDTO">  
+    SELECT
+	    acount_id,
+    	create_date,
+    	login_date,
+    	spread_id
+	FROM acount_tb
+	<where>
+	<if test="spreadId!=null">
+		AND  spread_id=#{spreadId}
+		</if>
+		<if test="createDate!=null">
+		AND  DATE(create_date)=DATE(#{createDate})
+		</if>
+		<if test="loginDate!=null">
+		AND  DATE(login_date)=DATE(#{loginDate})
+		</if>
+	AND ${orderName} 
+	<if test="orderWay=='asc'">
+	<![CDATA[>=]]> 
+	</if>
+	<if test="orderWay=='desc'">
+	  <![CDATA[<= ]]>
+	</if>
+	(SELECT ${orderName} FROM acount_tb 
+		 <where>
+		 <if test="spreadId!=null">
+		AND  spread_id=#{spreadId}
+		</if>
+		<if test="createDate!=null">
+		AND  DATE(create_date)=DATE(#{createDate})
+		</if>
+		<if test="loginDate!=null">
+		AND  DATE(login_date)=DATE(#{loginDate})
+		</if>
+		</where> 
+		ORDER BY 
+			${orderName}  ${orderWay}
+		LIMIT #{pageNum}, 1
+		) 
+	</where>
+	ORDER BY
+		${orderName}  ${orderWay}
+	LIMIT
+		#{pageSize}
+</select>
+
+<!-- 统计记录条数 -->
+<select id="countAll"  resultType="int">  
+	SELECT
+	 	count(acount_id)
+	FROM acount_tb
+	<where>
+	<if test="spreadId!=null">
+		AND  spread_id=#{spreadId}
+		</if>
+	<if test="masterId!=null">
+		AND  master_id=#{masterId}
+		</if>
+		<if test="roleId!=null">
+		AND  role_id=#{roleId}
+		</if>
+		<if test="status!=null">
+		AND  status=#{status}
+		</if>
+		<if test="createDate!=null">
+		AND  DATE(create_date)=DATE(#{createDate})
+		</if>
+		<if test="loginDate!=null">
+		AND  DATE(login_date)=DATE(#{loginDate})
+		</if>
+		<if test="phone!=null">
+		AND  phone like CONCAT('%','${phone}','%' )
+		</if>
+		<if test="nickname!=null">
+		AND  nickname like CONCAT('%','${nickname}','%' )
+		</if>
+	<if test="minScale!=null">
+		AND  scale<![CDATA[>=]]> #{minScale}
+		</if>
+	<if test=" maxScale!=null">
+		AND  scale<![CDATA[<=]]> #{maxScale}
+		</if>
+	</where>
+</select>   
+ <!-- 管理员登录-->
+<select id="loginAcount" parameterType="String" resultType="Acount" >
+SELECT 
+		acount_id,
+		nickname,
+	 	icon,
+	 	scale,
+	 	openid,
+	 	uuid,
+	 	sex,
+	 	country,
+	 	province,
+	 	city,
+	 	realname,
+	 	phone,
+    	email,
+    	password,
+    	identity_cards,
+    	qq,
+    	wechat,
+    	microblog,
+    	alipay,
+    	create_date,
+    	login_date,
+    	status,
+    	spread_id,
+    	master_id,
+    	role_id
+FROM acount_tb 
+WHERE 
+(phone=#{adminName}  OR email=#{adminName}) 
+<if test="password!=null">
+AND password=#{password}
+</if>
+<if test="acountId!=null">
+AND acount_id!=#{acountId}
+</if>
+</select>  
+ 
+ <!-- 用户登录-->
+<select id="weixinBaseAcountLogin" parameterType="String" resultType="Acount" >
+SELECT 
+		acount_id,
+		nickname,
+	 	icon,
+	 	scale,
+	 	openid,
+	 	uuid,
+	 	sex,
+	 	country,
+	 	province,
+	 	city,
+	 	realname,
+	 	phone,
+    	email,
+    	password,
+    	identity_cards,
+    	qq,
+    	wechat,
+    	microblog,
+    	alipay,
+    	create_date,
+    	login_date,
+    	status,
+    	spread_id,
+    	master_id,
+    	role_id
+FROM acount_tb 
+WHERE uuid=#{uuid}
+</select>  
+</mapper>

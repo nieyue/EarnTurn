@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.nieyue.dao.FinanceDetailsDao">
+<!-- 添加财务明细 -->
+<insert id="addFinanceDetails" parameterType="FinanceDetails" keyProperty="financeDetailsId" flushCache="true"  >  
+   INSERT IGNORE INTO
+   		  finance_details_tb 
+   		 (type,money,status,update_date,finance_id)
+   VALUES
+    	 (#{type},#{money},#{status},#{updateDate},#{financeId})  
+</insert>  
+<!-- 更新财务明细 -->
+<update id="updateFinanceDetails" parameterType="FinanceDetails" >  
+    UPDATE 
+    	finance_details_tb 
+    SET 
+    	type=#{type},
+    	money=#{money},
+    	status=#{status},
+    	update_date=#{updateDate},
+    	finance_id=#{financeId}
+    WHERE
+    	 finance_details_id=#{financeDetailsId} 
+</update> 
+<!-- 删除财务明细-->
+<delete id="delFinanceDetails"  parameterType="Integer" >  
+    DELETE FROM
+    	 finance_details_tb 
+    	 WHERE finance_details_id=#{financeDetailsId}
+</delete>  
+<!-- 加载财务明细-->
+<select id="loadFinanceDetails" parameterType="Integer" resultType="FinanceDetails" >
+SELECT 
+		finance_details_id,
+	 	type,
+	 	money,
+	 	type,
+    	status,
+    	update_date,
+    	finance_id
+FROM finance_details_tb 
+WHERE finance_details_id=#{financeDetailsId}
+</select>
+
+<!-- 分页查询财务明细-->
+<select id="browsePagingFinanceDetails" resultType="FinanceDetails">  
+   SELECT
+	    finance_details_id,
+	 	type,
+	 	money,
+	 	type,
+    	status,
+    	update_date,
+    	finance_id
+	FROM finance_details_tb
+	<where>
+	<if test="financeId!=null">
+		AND  finance_id=#{financeId}
+		</if>
+		<if test="type!=null">
+		AND  type=#{type}
+	</if>
+	AND ${orderName} 
+	<if test="orderWay=='asc'">
+	<![CDATA[>=]]> 
+	</if>
+	<if test="orderWay=='desc'">
+	  <![CDATA[<= ]]>
+	</if>
+	(SELECT ${orderName} FROM finance_details_tb
+	<where>
+	<if test="financeId!=null">
+		AND  finance_id=#{financeId}
+		</if>
+		<if test="type!=null">
+		AND  type=#{type}
+	</if>
+	</where> 
+		ORDER BY 
+			${orderName}  ${orderWay}
+		LIMIT #{pageNum}, 1
+		) 
+	</where>
+	ORDER BY
+		${orderName}  ${orderWay}
+	LIMIT
+		#{pageSize}
+</select> 
+<!-- 财务数据-->
+<select id="browseFinanceDetailsData" resultType="Double">  
+   SELECT
+	 	sum(money)
+	FROM finance_details_tb
+	 <where>
+		<if test="type!=null">
+		AND  type=#{type}
+	</if>
+		<if test="updateDate!=null">
+		AND  update_date=#{updateDate}
+	</if>
+		<if test="likeStatus!=null">
+		AND  status like CONCAT('%','${likeStatus}','%' )
+	</if>
+	</where> 
+</select> 
+
+<!-- 统计记录条数 -->
+<select id="countAll"  resultType="int">  
+	SELECT
+	 	count(finance_details_id)
+	FROM finance_details_tb
+	<where>
+	<if test="financeId!=null">
+		AND  finance_id=#{financeId}
+	</if>
+	<if test="type!=null">
+		AND  type=#{type}
+	</if>
+	</where>
+</select>   
+   
+ 
+</mapper>

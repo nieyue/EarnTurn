@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.nieyue.dao.SpreadDao">
+<!-- 添加推广 -->
+<insert id="addSpread" parameterType="Spread" keyProperty="spreadId" flushCache="true"  >  
+   INSERT IGNORE INTO
+   		  spread_tb 
+   		 (platform,name,method,link,model,unit_price,total_price,
+   		 download_number,register_number,
+   		 now_total_price,create_date,end_date,status)
+   VALUES
+    	 (#{platform},#{name},#{method},#{link},#{model},#{unitPrice},#{totalPrice},
+    	 #{downloadNumber},#{registerNumber},
+    	 #{nowTotalPrice},#{createDate},#{endDate},#{status}
+    	 )  
+</insert>  
+<!-- 更新推广 -->
+<update id="updateSpread" parameterType="Spread" >  
+    UPDATE 
+    	spread_tb 
+    SET 
+    	platform=#{platform},
+    	name=#{name},
+    	method=#{method},
+    	link=#{link},
+    	model=#{model},
+    	unit_price=#{unitPrice},
+    	total_price=#{totalPrice},
+    	download_number=#{downloadNumber},
+    	register_number=#{registerNumber},
+    	now_total_price=#{nowTotalPrice},
+    	create_date=#{createDate},
+    	end_date=#{endDate},
+    	status=#{status}
+    WHERE
+    	 spread_id=#{spreadId} 
+</update> 
+<!-- 删除推广-->
+<delete id="delSpread"  parameterType="Integer" >  
+    DELETE FROM
+    	 spread_tb 
+    	 WHERE spread_id=#{spreadId}
+</delete>  
+<!-- 加载推广-->
+<select id="loadSpread" parameterType="Integer" resultType="Spread" >
+SELECT 
+		spread_id,
+		platform,
+    	name,
+    	method,
+    	link,
+    	model,
+    	unit_price,
+    	total_price,
+    	download_number,
+    	register_number,
+    	now_total_price,
+    	create_date,
+    	end_date,
+    	status
+FROM spread_tb 
+WHERE spread_id=#{spreadId}
+</select>
+
+<!-- 分页查询推广-->
+<select id="browsePagingSpread" resultType="Spread">  
+     SELECT
+	    spread_id,
+		platform,
+    	name,
+    	method,
+    	link,
+    	model,
+    	unit_price,
+    	total_price,
+    	download_number,
+    	register_number,
+    	now_total_price,
+    	create_date,
+    	end_date,
+    	status
+	FROM spread_tb
+	<where>
+	<if test="platform!=null">
+		AND  platform=#{platform}
+		</if>
+	<if test="status!=null">
+		AND  status=#{status}
+		</if>
+	 AND ${orderName} 
+	<if test="orderWay=='asc'">
+	<![CDATA[>=]]> 
+	</if>
+	<if test="orderWay=='desc'">
+	  <![CDATA[<= ]]>
+	</if>
+	(SELECT ${orderName} FROM spread_tb
+	<where>
+	<if test="platform!=null">
+		AND  platform=#{platform}
+		</if>
+	<if test="status!=null">
+		AND  status=#{status}
+		</if>
+	</where> 
+		ORDER BY 
+			${orderName}  ${orderWay}
+		LIMIT #{pageNum}, 1
+		) 
+	</where> 
+	ORDER BY
+		${orderName}  ${orderWay}
+	LIMIT
+		#{pageSize}
+</select> 
+
+<!-- 统计记录条数 -->
+<select id="countAll"  resultType="int">  
+	SELECT
+	 	count(spread_id)
+	FROM spread_tb
+	<where>
+	<if test="platform!=null">
+		AND  platform=#{platform}
+		</if>
+	<if test="status!=null">
+		AND  status=#{status}
+		</if>
+	</where> 
+</select>   
+   
+ 
+</mapper>
